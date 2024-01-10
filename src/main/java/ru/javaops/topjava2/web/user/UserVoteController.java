@@ -19,7 +19,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = UserVoteController.REST_URL)
 @RequiredArgsConstructor
-@Tag(name = "vote")
+@Tag(name = "user-vote-controller")
 public class UserVoteController {
     static final String REST_URL = "/api/vote";
     private final VoteService service;

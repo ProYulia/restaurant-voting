@@ -12,9 +12,6 @@ import ru.javaops.topjava2.repository.RestaurantRepository;
 import ru.javaops.topjava2.to.MenuRequestTo;
 import ru.javaops.topjava2.to.MenuResponseTo;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class MenuService {
@@ -31,9 +28,5 @@ public class MenuService {
         Menu entity = mapper.requestToMenuEntity(menuTo, restaurant);
         Menu persisted = menuRepository.save(entity);
         return mapper.entityToMenuResponse(persisted);
-    }
-
-    public List<Menu> getAllByDate(LocalDate today) {
-        return menuRepository.findAllFilteredByDate(today);
     }
 }

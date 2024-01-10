@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javaops.topjava2.service.MenuService;
+import ru.javaops.topjava2.to.MenuCreationTo;
 import ru.javaops.topjava2.to.MenuRequestTo;
 import ru.javaops.topjava2.to.MenuResponseTo;
 
@@ -17,7 +18,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = AdminMenuController.REST_URL)
 @RequiredArgsConstructor
-@Tag(name = "admin Menu")
+@Tag(name = "admin-menu-controller")
 public class AdminMenuController {
     static final String REST_URL = "/api/admin/restaurant/{restaurantId}/menu";
     private final MenuService service;
@@ -33,6 +34,5 @@ public class AdminMenuController {
                 .buildAndExpand(restaurantId, created.getId())
                 .toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
-
     }
 }

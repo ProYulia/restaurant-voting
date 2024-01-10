@@ -17,7 +17,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = AdminDishController.REST_URL)
 @RequiredArgsConstructor
-@Tag(name = "dish")
+@Tag(name = "admin-dish-controller")
 public class AdminDishController {
     static final String REST_URL = "/api/admin/restaurant/{restaurantId}/menu/{menuId}/dish";
 

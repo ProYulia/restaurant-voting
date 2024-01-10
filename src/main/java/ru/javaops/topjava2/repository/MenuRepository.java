@@ -10,6 +10,4 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface MenuRepository extends BaseRepository<Menu> {
-    @Query(value = "SELECT * FROM menu WHERE date_created =:today", nativeQuery = true)
-    List<Menu> findAllFilteredByDate(LocalDate today);
 }
