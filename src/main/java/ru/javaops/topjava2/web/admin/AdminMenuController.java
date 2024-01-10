@@ -1,5 +1,6 @@
 package ru.javaops.topjava2.web.admin;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = AdminMenuController.REST_URL)
 @RequiredArgsConstructor
+@Tag(name = "admin Menu")
 public class AdminMenuController {
     static final String REST_URL = "/api/admin/restaurant/{restaurantId}/menu";
     private final MenuService service;

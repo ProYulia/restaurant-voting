@@ -1,5 +1,6 @@
 package ru.javaops.topjava2.web.user;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = UserVoteController.REST_URL)
 @RequiredArgsConstructor
+@Tag(name = "vote")
 public class UserVoteController {
     static final String REST_URL = "/api/vote";
     private final VoteService service;
