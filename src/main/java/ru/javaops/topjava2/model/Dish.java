@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Range;
 
 
@@ -12,6 +13,7 @@ import org.hibernate.validator.constraints.Range;
 @Table(name = "dish")
 @Getter
 @Setter
+@ToString(callSuper = true, onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 public class Dish extends NamedEntity {
 
@@ -28,5 +30,15 @@ public class Dish extends NamedEntity {
         super(id, name);
         this.price = price;
         this.menu = menu;
+    }
+
+    public Dish(Integer id, String name, Integer price) {
+        super(id, name);
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + '[' + price + ']';
     }
 }

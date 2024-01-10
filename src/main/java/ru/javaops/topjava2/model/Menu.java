@@ -13,7 +13,8 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-@NoArgsConstructor
+@ToString(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu extends BaseEntity {
 
     @Column(name = "date_created", nullable = false)
@@ -29,4 +30,13 @@ public class Menu extends BaseEntity {
     @OneToMany(mappedBy = "menu")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Dish> dishes;
+
+    public Menu(LocalDate date) {
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + '[' + date + ']';
+    }
 }

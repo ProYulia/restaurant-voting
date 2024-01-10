@@ -25,6 +25,7 @@ public abstract class NamedEntity extends BaseEntity {
 
     protected NamedEntity(Integer id, String name) {
         super(id);
+        setId(id);
         this.name = name;
     }
 

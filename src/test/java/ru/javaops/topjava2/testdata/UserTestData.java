@@ -1,4 +1,4 @@
-package ru.javaops.topjava2.web.user;
+package ru.javaops.topjava2.testdata;
 
 import ru.javaops.topjava2.model.Role;
 import ru.javaops.topjava2.model.User;

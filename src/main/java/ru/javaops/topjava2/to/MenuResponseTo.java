@@ -2,10 +2,13 @@ package ru.javaops.topjava2.to;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 public class MenuResponseTo {
 
     @NotNull

@@ -12,6 +12,8 @@ import ru.javaops.topjava2.model.Role;
 import ru.javaops.topjava2.model.User;
 import ru.javaops.topjava2.repository.UserRepository;
 import ru.javaops.topjava2.web.AbstractControllerTest;
+import ru.javaops.topjava2.web.user.AdminUserController;
+import ru.javaops.topjava2.web.user.UniqueMailValidator;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,11 +21,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javaops.topjava2.web.user.AdminUserController.REST_URL;
-import static ru.javaops.topjava2.web.user.UserTestData.*;
+import static ru.javaops.topjava2.testdata.UserTestData.*;
 
 class AdminUserControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL_SLASH = REST_URL + '/';
+    private static final String REST_URL_SLASH = AdminUserController.REST_URL + '/';
 
     @Autowired
     private UserRepository repository;

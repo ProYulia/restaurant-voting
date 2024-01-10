@@ -13,5 +13,6 @@ public interface RestaurantMapper {
     RestaurantResponseTo entityToRestaurantResponse(Restaurant restaurant);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "menus", ignore = true)
     Restaurant requestToRestaurantEntity(RestaurantRequestTo restaurantRequestTo);
 }
