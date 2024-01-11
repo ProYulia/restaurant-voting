@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "restaurant")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Restaurant extends NamedEntity {
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -24,6 +24,7 @@ public class Restaurant extends NamedEntity {
 
     public Restaurant(Integer id, String name) {
         super(id, name);
+
     }
 
     public Restaurant(Integer id, String name, Menu menu) {

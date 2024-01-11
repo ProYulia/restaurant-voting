@@ -14,9 +14,6 @@ public class VoteResponseTo {
     @NotNull
     private Integer id;
 
-    @NotBlank
-    private String restaurantName;
-
     @NotNull
     private LocalDate date;
 }

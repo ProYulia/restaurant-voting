@@ -13,7 +13,6 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu extends BaseEntity {
 

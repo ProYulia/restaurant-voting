@@ -11,6 +11,6 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface RestaurantRepository extends BaseRepository<Restaurant> {
-    @Query(value = "SELECT r, d FROM Restaurant r INNER JOIN Menu m ON r = m.restaurant WHERE m.date =:today")
+    @Query(value = "SELECT r FROM Restaurant r INNER JOIN Menu m ON r = m.restaurant WHERE m.date =:today")
     List<Restaurant> findAllFilteredByDate(LocalDate today);
 }

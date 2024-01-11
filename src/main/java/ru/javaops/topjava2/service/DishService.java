@@ -30,4 +30,14 @@ public class DishService {
         Dish persisted = dishRepository.save(entity);
         return mapper.entityToDishResponse(persisted);
     }
+
+    @Transactional
+    public DishResponseTo update(DishRequestTo dishRequestTo, int id, int menuId) {
+        menuRepository.findById(menuId)
+                .orElseThrow(() -> new NotFoundException("No menu with id = " + menuId));
+        Dish dish = dishRepository.getExisted(id);
+        mapper.updateEntity(dish, dishRequestTo);
+        Dish persisted = dishRepository.save(dish);
+        return mapper.entityToDishResponse(persisted);
+    }
 }

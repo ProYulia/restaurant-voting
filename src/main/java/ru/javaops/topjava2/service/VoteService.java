@@ -19,7 +19,7 @@ import java.time.LocalTime;
 @RequiredArgsConstructor
 public class VoteService {
 
-    private static final LocalTime DEADLINE = LocalTime.of(11, 0);
+    private static final LocalTime DEADLINE = LocalTime.of(20, 0);
     private final RestaurantRepository restaurantRepository;
     private final VoteRepository voteRepository;
     private final UserRepository userRepository;
@@ -29,7 +29,7 @@ public class VoteService {
         checkDeadline(LocalTime.now());
         Restaurant restaurant = restaurantRepository.getOne(voteTo.getRestaurantId());
         Vote vote = voteRepository.getByUserIdAndDate(userId, LocalDate.now())
-                .orElseGet(() -> new Vote(LocalDate.now(), userRepository.getOne(userId), restaurant));
+                .orElseGet(() -> new Vote(LocalDate.now(), userRepository.getExisted(userId), restaurant));
         vote.setRestaurant(restaurant);
         Vote persisted = voteRepository.save(vote);
         return mapper.entityToVoteResponseTo(persisted);

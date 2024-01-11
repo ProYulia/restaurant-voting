@@ -1,5 +1,6 @@
 package ru.javaops.topjava2.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -13,8 +14,8 @@ import org.hibernate.validator.constraints.Range;
 @Table(name = "dish")
 @Getter
 @Setter
-@ToString(callSuper = true, onlyExplicitlyIncluded = true)
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Dish extends NamedEntity {
 
     @Column(nullable = false)
@@ -28,6 +29,11 @@ public class Dish extends NamedEntity {
 
     public Dish(Integer id, String name, Integer price) {
         super(id, name);
+        this.price = price;
+    }
+
+    public Dish(String name, Integer price) {
+        this.name = name;
         this.price = price;
     }
 

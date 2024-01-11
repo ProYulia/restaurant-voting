@@ -2,6 +2,7 @@ package ru.javaops.topjava2.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import ru.javaops.topjava2.config.MapConfig;
 import ru.javaops.topjava2.model.Menu;
 import ru.javaops.topjava2.model.Restaurant;
@@ -16,4 +17,7 @@ public interface MenuMapper {
     @Mapping(target = "restaurant", source = "restaurant")
     @Mapping(target = "id", ignore = true)
     Menu requestToMenuEntity(MenuRequestTo menuTo, Restaurant restaurant);
+
+
+    void updateEntity(@MappingTarget Menu menu, MenuRequestTo menuRequestTo);
 }

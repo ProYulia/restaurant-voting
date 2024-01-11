@@ -2,7 +2,9 @@ package ru.javaops.topjava2.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava2.mapper.RestaurantMapper;
+import ru.javaops.topjava2.model.Dish;
 import ru.javaops.topjava2.model.Restaurant;
 import ru.javaops.topjava2.repository.DishRepository;
 import ru.javaops.topjava2.repository.RestaurantRepository;
@@ -22,17 +24,32 @@ public class RestaurantService {
     private final RestaurantRepository repository;
     private final RestaurantMapper mapper;
     private final VoteRepository voteRepository;
+    private final DishRepository dishRepository;
 
+    @Transactional
     public RestaurantResponseTo create(RestaurantRequestTo restaurantTo) {
         Restaurant restaurant = mapper.requestToRestaurantEntity(restaurantTo);
         Restaurant persisted = repository.save(restaurant);
-        return mapper.entityToRestaurantResponseTo(persisted, 0);
+        return mapper.entityToRestaurantResponseTo(persisted, 0, null);
     }
 
     public List<RestaurantResponseTo> getAllByDate(LocalDate today) {
         Map<Integer, Integer> votes = voteRepository.getTotal();
+        Map<Integer, List<Dish>> dishes = dishRepository.getRestaurantDishes();
         return repository.findAllFilteredByDate(today).stream()
-                .map(r -> mapper.entityToRestaurantResponseTo(r, votes.getOrDefault(r.getId(), 0)))
+                .map(r -> mapper.entityToRestaurantResponseTo(r, votes.getOrDefault(r.getId(), 0), dishes.getOrDefault(r.getId(), null)))
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public RestaurantResponseTo update(RestaurantRequestTo restaurantTo, int id) {
+        Restaurant restaurant = repository.getExisted(id);
+        mapper.updateEntity(restaurant, restaurantTo);
+        Restaurant persisted = repository.save(restaurant);
+        Integer votes = voteRepository.getTotal().get(id);
+        List<Dish> dishes = dishRepository.getRestaurantDishes().get(id);
+        return mapper.entityToRestaurantResponseTo(persisted, votes, dishes);
+    }
+
+
 }

@@ -35,4 +35,12 @@ public class AdminMenuController {
                 .toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public MenuResponseTo update(@PathVariable int restaurantId,
+                                 @PathVariable int id,
+                                 @Valid @RequestBody MenuRequestTo menuRequestTo) {
+
+        return service.update(menuRequestTo, id, restaurantId);
+    }
 }

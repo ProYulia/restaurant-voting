@@ -34,4 +34,9 @@ public class AdminRestaurantController {
                 .toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public RestaurantResponseTo update(@PathVariable int id, @Valid @RequestBody RestaurantRequestTo restaurant) {
+        return service.update(restaurant, id);
+    }
 }
