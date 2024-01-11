@@ -23,18 +23,6 @@ public class AdminUserController extends AbstractUserController {
 
     static final String REST_URL = "/api/admin/users";
 
-    @Override
-    @GetMapping("/{id}")
-    public User get(@PathVariable int id) {
-        return super.get(id);
-    }
-
-    @Override
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        super.delete(id);
-    }
 
     @GetMapping
     public List<User> getAll() {
@@ -59,12 +47,6 @@ public class AdminUserController extends AbstractUserController {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         repository.prepareAndSave(user);
-    }
-
-    @GetMapping("/by-email")
-    public User getByEmail(@RequestParam String email) {
-        log.info("getByEmail {}", email);
-        return repository.getExistedByEmail(email);
     }
 
     @PatchMapping("/{id}")

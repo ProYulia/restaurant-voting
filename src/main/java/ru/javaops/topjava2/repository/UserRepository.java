@@ -20,8 +20,4 @@ public interface UserRepository extends BaseRepository<User> {
         user.setEmail(user.getEmail().toLowerCase());
         return save(user);
     }
-
-    default User getExistedByEmail(String email) {
-        return findByEmailIgnoreCase(email).orElseThrow(() -> new NotFoundException("User with email=" + email + " not found"));
-    }
 }
