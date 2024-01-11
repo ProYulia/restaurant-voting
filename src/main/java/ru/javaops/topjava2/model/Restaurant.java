@@ -1,9 +1,10 @@
 package ru.javaops.topjava2.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -13,16 +14,21 @@ import java.util.List;
 @Table(name = "restaurant")
 @Getter
 @Setter
-@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant extends NamedEntity {
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "menu_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Menu> menus;
+    private Menu menu;
 
     public Restaurant(Integer id, String name) {
         super(id, name);
+    }
+
+    public Restaurant(Integer id, String name, Menu menu) {
+        super(id, name);
+        this.menu = menu;
     }
 
     @Override
