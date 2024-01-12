@@ -13,9 +13,9 @@ import ru.javaops.topjava2.util.JsonUtil;
 import ru.javaops.topjava2.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.javaops.topjava2.testdata.MenuTestData.MENU_MATCHER;
-import static ru.javaops.topjava2.testdata.MenuTestData.getNew;
+import static ru.javaops.topjava2.testdata.MenuTestData.*;
 import static ru.javaops.topjava2.testdata.UserTestData.ADMIN_MAIL;
 import static ru.javaops.topjava2.testdata.UserTestData.USER_MAIL;
 
@@ -29,7 +29,7 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
 
     @Test
     void createUnAuth() throws Exception {
-        Menu newMenu = getNew();
+        Menu newMenu = MenuTestData.getNew();
         perform(MockMvcRequestBuilders
                 .post(REST_URL, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -41,7 +41,7 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void createForbidden() throws Exception {
-        Menu newMenu = getNew();
+        Menu newMenu = MenuTestData.getNew();
         perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newMenu)))
@@ -63,7 +63,7 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        Menu newMenu = getNew();
+        Menu newMenu = MenuTestData.getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newMenu)))
@@ -72,7 +72,7 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
 
         Menu created = MENU_MATCHER.readFromJson(action);
         int newId = created.id();
-        Menu expected = getNew();
+        Menu expected = MenuTestData.getNew();
         expected.setId(newId);
         MENU_MATCHER.assertMatch(created, expected);
         MENU_MATCHER.assertMatch(repository.getExisted(newId), expected);
@@ -82,11 +82,20 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         Menu updated = MenuTestData.getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL + "/{id}", RESTAURANT_ID, MenuTestData.MENU_ID).contentType(MediaType.APPLICATION_JSON)
+        perform(MockMvcRequestBuilders.put(REST_URL + "/{id}", RESTAURANT_ID, MenuTestData.MENU1_ID).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        MENU_MATCHER.assertMatch(repository.getExisted(MenuTestData.MENU_ID), MenuTestData.getUpdated());
+        MENU_MATCHER.assertMatch(repository.getExisted(MenuTestData.MENU1_ID), MenuTestData.getUpdated());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getAll() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL, RESTAURANT_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MENU_MATCHER.contentJson(menu1, menu2));
     }
 }

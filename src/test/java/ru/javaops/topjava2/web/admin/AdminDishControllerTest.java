@@ -12,10 +12,13 @@ import ru.javaops.topjava2.testdata.DishTestData;
 import ru.javaops.topjava2.util.JsonUtil;
 import ru.javaops.topjava2.web.AbstractControllerTest;
 
+import java.util.List;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.javaops.topjava2.testdata.DishTestData.DISH_ID;
-import static ru.javaops.topjava2.testdata.DishTestData.DISH_MATCHER;
+import static ru.javaops.topjava2.testdata.DishTestData.*;
+import static ru.javaops.topjava2.testdata.MenuTestData.MENU1_ID;
 import static ru.javaops.topjava2.testdata.UserTestData.ADMIN_MAIL;
 import static ru.javaops.topjava2.testdata.UserTestData.USER_MAIL;
 
@@ -83,11 +86,20 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         Dish updated = DishTestData.getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL +"/{id}", RESTAURANT_ID, MENU_ID, DISH_ID).contentType(MediaType.APPLICATION_JSON)
+        perform(MockMvcRequestBuilders.put(REST_URL + "/{id}", RESTAURANT_ID, MENU_ID, DISH_ID).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
         DISH_MATCHER.assertMatch(repository.getExisted(DISH_ID), DishTestData.getUpdated());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getAll() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL, RESTAURANT_ID, MENU1_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(DISH_MATCHER.contentJson(List.of(dish1)));
     }
 }

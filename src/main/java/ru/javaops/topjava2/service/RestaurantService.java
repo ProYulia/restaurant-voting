@@ -1,6 +1,8 @@
 package ru.javaops.topjava2.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava2.mapper.RestaurantMapper;
@@ -45,8 +47,14 @@ public class RestaurantService {
     public void update(RestaurantRequestTo restaurantTo, int id) {
         Restaurant restaurant = repository.getExisted(id);
         mapper.updateEntity(restaurant, restaurantTo);
-        Restaurant persisted = repository.save(restaurant);
-        Integer votes = voteRepository.getTotal().get(id);
-        dishRepository.getRestaurantDishes().get(id);
+        repository.save(restaurant);
+    }
+
+    public List<RestaurantResponseTo> getAll() {
+        Map<Integer, Integer> votes = voteRepository.getTotal();
+        Map<Integer, List<Dish>> dishes = dishRepository.getRestaurantDishes();
+        return repository.findAll().stream()
+                .map(r -> mapper.entityToRestaurantResponseTo(r, votes.getOrDefault(r.getId(), 0), dishes.getOrDefault(r.getId(), null)))
+                .collect(Collectors.toList());
     }
 }

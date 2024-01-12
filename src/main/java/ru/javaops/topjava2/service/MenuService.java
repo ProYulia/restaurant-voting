@@ -12,6 +12,9 @@ import ru.javaops.topjava2.repository.RestaurantRepository;
 import ru.javaops.topjava2.to.MenuRequestTo;
 import ru.javaops.topjava2.to.MenuResponseTo;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class MenuService {
@@ -35,5 +38,11 @@ public class MenuService {
         Menu menu = menuRepository.getExisted(id);
         mapper.updateEntity(menu, menuRequestTo);
         menuRepository.save(menu);
+    }
+
+    public List<MenuResponseTo> getAll(int restaurantId) {
+        return menuRepository.findAllByRestaurantId(restaurantId).stream()
+                .map(mapper::entityToMenuResponse)
+                .collect(Collectors.toList());
     }
 }

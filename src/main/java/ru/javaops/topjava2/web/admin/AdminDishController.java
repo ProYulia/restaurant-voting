@@ -13,6 +13,7 @@ import ru.javaops.topjava2.to.DishRequestTo;
 import ru.javaops.topjava2.to.DishResponseTo;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = AdminDishController.REST_URL)
@@ -45,5 +46,10 @@ public class AdminDishController {
                        @PathVariable int restaurantId) {
 
         service.update(dishRequestTo, id, menuId);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<DishResponseTo> getAll(@PathVariable int menuId, @PathVariable int restaurantId) {
+        return service.getAll(menuId, restaurantId);
     }
 }

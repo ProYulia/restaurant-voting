@@ -13,6 +13,7 @@ import ru.javaops.topjava2.to.MenuRequestTo;
 import ru.javaops.topjava2.to.MenuResponseTo;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = AdminMenuController.REST_URL)
@@ -42,5 +43,10 @@ public class AdminMenuController {
                        @Valid @RequestBody MenuRequestTo menuRequestTo) {
 
         service.update(menuRequestTo, id, restaurantId);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MenuResponseTo> getAll(@PathVariable int restaurantId) {
+        return service.getAll(restaurantId);
     }
 }

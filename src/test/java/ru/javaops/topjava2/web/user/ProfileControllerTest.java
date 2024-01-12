@@ -17,8 +17,8 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.javaops.topjava2.web.user.ProfileController.REST_URL;
 import static ru.javaops.topjava2.testdata.UserTestData.*;
+import static ru.javaops.topjava2.web.user.ProfileController.REST_URL;
 
 class ProfileControllerTest extends AbstractControllerTest {
 

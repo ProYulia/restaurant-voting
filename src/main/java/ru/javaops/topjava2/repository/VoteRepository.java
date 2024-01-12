@@ -20,8 +20,6 @@ public interface VoteRepository extends BaseRepository<Vote> {
                 .collect(Collectors.toMap(o -> (Integer) o[0], o -> ((Long) o[1]).intValue()));
     }
 
-    ;
-
     @Query(value = "SELECT restaurant_id, COUNT(id) FROM vote WHERE date_effective = current_date GROUP BY restaurant_id",
             nativeQuery = true)
     List<Object[]> countVotesByRestaurant();

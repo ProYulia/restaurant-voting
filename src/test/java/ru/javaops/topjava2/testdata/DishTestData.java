@@ -8,6 +8,8 @@ public class DishTestData {
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "menu");
 
+    public static final Dish dish1 = new Dish(DISH_ID, "Cheeze pizza", 299);
+
     public static Dish getNew() {
         return new Dish(null, "new dish", 300);
     }
