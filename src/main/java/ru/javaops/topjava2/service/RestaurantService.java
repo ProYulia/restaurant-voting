@@ -42,14 +42,11 @@ public class RestaurantService {
     }
 
     @Transactional
-    public RestaurantResponseTo update(RestaurantRequestTo restaurantTo, int id) {
+    public void update(RestaurantRequestTo restaurantTo, int id) {
         Restaurant restaurant = repository.getExisted(id);
         mapper.updateEntity(restaurant, restaurantTo);
         Restaurant persisted = repository.save(restaurant);
         Integer votes = voteRepository.getTotal().get(id);
-        List<Dish> dishes = dishRepository.getRestaurantDishes().get(id);
-        return mapper.entityToRestaurantResponseTo(persisted, votes, dishes);
+        dishRepository.getRestaurantDishes().get(id);
     }
-
-
 }

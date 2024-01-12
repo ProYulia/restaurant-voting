@@ -36,7 +36,8 @@ public class AdminRestaurantController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public RestaurantResponseTo update(@PathVariable int id, @Valid @RequestBody RestaurantRequestTo restaurant) {
-        return service.update(restaurant, id);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@PathVariable int id, @Valid @RequestBody RestaurantRequestTo restaurant) {
+        service.update(restaurant, id);
     }
 }

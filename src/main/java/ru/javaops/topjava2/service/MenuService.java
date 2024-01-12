@@ -31,10 +31,9 @@ public class MenuService {
     }
 
     @Transactional
-    public MenuResponseTo update(MenuRequestTo menuRequestTo, int id, int restaurantId) {
+    public void update(MenuRequestTo menuRequestTo, int id, int restaurantId) {
         Menu menu = menuRepository.getExisted(id);
         mapper.updateEntity(menu, menuRequestTo);
-        Menu persisted = menuRepository.save(menu);
-        return mapper.entityToMenuResponse(persisted);
+        menuRepository.save(menu);
     }
 }

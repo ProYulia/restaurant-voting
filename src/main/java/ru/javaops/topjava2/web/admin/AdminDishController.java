@@ -37,12 +37,13 @@ public class AdminDishController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public DishResponseTo update(@Valid @RequestBody DishRequestTo dishRequestTo,
-                                 @PathVariable int id,
-                                 @PathVariable int menuId,
-                                 @PathVariable int restaurantId) {
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Valid @RequestBody DishRequestTo dishRequestTo,
+                       @PathVariable int id,
+                       @PathVariable int menuId,
+                       @PathVariable int restaurantId) {
 
-        return service.update(dishRequestTo, id, menuId);
+        service.update(dishRequestTo, id, menuId);
     }
 }

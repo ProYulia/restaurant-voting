@@ -2,7 +2,6 @@ package ru.javaops.topjava2.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +15,7 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Menu extends BaseEntity {
 
     @Column(name = "date_created", nullable = false)
@@ -34,6 +33,11 @@ public class Menu extends BaseEntity {
     private List<Dish> dishes;
 
     public Menu(LocalDate date) {
+        this.date = date;
+    }
+
+    public Menu(Integer id, LocalDate date) {
+        super(id);
         this.date = date;
     }
 

@@ -35,11 +35,12 @@ public class AdminMenuController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public MenuResponseTo update(@PathVariable int restaurantId,
-                                 @PathVariable int id,
-                                 @Valid @RequestBody MenuRequestTo menuRequestTo) {
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@PathVariable int restaurantId,
+                       @PathVariable int id,
+                       @Valid @RequestBody MenuRequestTo menuRequestTo) {
 
-        return service.update(menuRequestTo, id, restaurantId);
+        service.update(menuRequestTo, id, restaurantId);
     }
 }

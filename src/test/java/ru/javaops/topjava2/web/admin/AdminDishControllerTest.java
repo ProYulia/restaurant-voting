@@ -8,13 +8,14 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.javaops.topjava2.model.Dish;
 import ru.javaops.topjava2.repository.DishRepository;
+import ru.javaops.topjava2.testdata.DishTestData;
 import ru.javaops.topjava2.util.JsonUtil;
 import ru.javaops.topjava2.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.javaops.topjava2.testdata.DishTestData.DISH_ID;
 import static ru.javaops.topjava2.testdata.DishTestData.DISH_MATCHER;
-import static ru.javaops.topjava2.testdata.DishTestData.getNew;
 import static ru.javaops.topjava2.testdata.UserTestData.ADMIN_MAIL;
 import static ru.javaops.topjava2.testdata.UserTestData.USER_MAIL;
 
@@ -25,11 +26,11 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     private static final int MENU_ID = 6;
 
     @Autowired
-    private DishRepository dishRepository;
+    private DishRepository repository;
 
     @Test
     void createUnAuth() throws Exception {
-        Dish newDish = getNew();
+        Dish newDish = DishTestData.getNew();
         perform(MockMvcRequestBuilders
                 .post(REST_URL, RESTAURANT_ID, MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -41,7 +42,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void createForbidden() throws Exception {
-        Dish newDish = getNew();
+        Dish newDish = DishTestData.getNew();
         perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT_ID, MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newDish)))
@@ -63,7 +64,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        Dish newDish = getNew();
+        Dish newDish = DishTestData.getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT_ID, MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newDish)))
@@ -72,9 +73,21 @@ public class AdminDishControllerTest extends AbstractControllerTest {
 
         Dish created = DISH_MATCHER.readFromJson(action);
         int newId = created.id();
-        Dish expected = getNew();
+        Dish expected = DishTestData.getNew();
         expected.setId(newId);
         DISH_MATCHER.assertMatch(created, expected);
-        DISH_MATCHER.assertMatch(dishRepository.getExisted(newId), expected);
+        DISH_MATCHER.assertMatch(repository.getExisted(newId), expected);
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void update() throws Exception {
+        Dish updated = DishTestData.getUpdated();
+        perform(MockMvcRequestBuilders.put(REST_URL +"/{id}", RESTAURANT_ID, MENU_ID, DISH_ID).contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        DISH_MATCHER.assertMatch(repository.getExisted(DISH_ID), DishTestData.getUpdated());
     }
 }

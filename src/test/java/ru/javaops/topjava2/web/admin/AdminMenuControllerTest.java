@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.javaops.topjava2.model.Menu;
 import ru.javaops.topjava2.repository.MenuRepository;
+import ru.javaops.topjava2.testdata.MenuTestData;
 import ru.javaops.topjava2.util.JsonUtil;
 import ru.javaops.topjava2.web.AbstractControllerTest;
 
@@ -24,7 +25,7 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     private static final int RESTAURANT_ID = 4;
 
     @Autowired
-    private MenuRepository menuRepository;
+    private MenuRepository repository;
 
     @Test
     void createUnAuth() throws Exception {
@@ -74,6 +75,18 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
         Menu expected = getNew();
         expected.setId(newId);
         MENU_MATCHER.assertMatch(created, expected);
-        MENU_MATCHER.assertMatch(menuRepository.getExisted(newId), expected);
+        MENU_MATCHER.assertMatch(repository.getExisted(newId), expected);
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void update() throws Exception {
+        Menu updated = MenuTestData.getUpdated();
+        perform(MockMvcRequestBuilders.put(REST_URL + "/{id}", RESTAURANT_ID, MenuTestData.MENU_ID).contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        MENU_MATCHER.assertMatch(repository.getExisted(MenuTestData.MENU_ID), MenuTestData.getUpdated());
     }
 }

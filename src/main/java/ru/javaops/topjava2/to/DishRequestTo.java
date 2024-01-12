@@ -15,4 +15,9 @@ public class DishRequestTo {
 
     @NotNull
     private Integer price;
+
+    public DishRequestTo(String name, Integer price) {
+        this.name = name;
+        this.price = price;
+    }
 }
