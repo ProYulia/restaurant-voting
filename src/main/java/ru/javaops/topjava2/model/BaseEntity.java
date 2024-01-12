@@ -9,7 +9,6 @@ import org.springframework.util.Assert;
 import ru.javaops.topjava2.HasId;
 
 @MappedSuperclass
-//  https://stackoverflow.com/a/6084701/548473
 @Access(AccessType.FIELD)
 @Getter
 @Setter
@@ -20,10 +19,9 @@ public abstract class BaseEntity implements Persistable<Integer>, HasId {
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // https://stackoverflow.com/a/28025008/548473
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     protected Integer id;
 
-    // doesn't work for hibernate lazy proxy
     public int id() {
         Assert.notNull(id, "Entity must have id");
         return id;
@@ -34,7 +32,6 @@ public abstract class BaseEntity implements Persistable<Integer>, HasId {
         return id == null;
     }
 
-    //    https://stackoverflow.com/questions/1638723
     @Override
     public boolean equals(Object o) {
         if (this == o) {

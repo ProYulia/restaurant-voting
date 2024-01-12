@@ -16,8 +16,6 @@ import org.springframework.util.CollectionUtils;
 import ru.javaops.topjava2.HasIdAndEmail;
 import ru.javaops.topjava2.util.validation.NoHtml;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.*;
 
 @Entity
@@ -31,13 +29,12 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @Email
     @NotBlank
     @Size(max = 128)
-    @NoHtml   // https://stackoverflow.com/questions/17480809
+    @NoHtml
     private String email;
 
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(max = 128)
-    // https://stackoverflow.com/a/12505165/548473
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

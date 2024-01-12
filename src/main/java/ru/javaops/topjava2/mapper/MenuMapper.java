@@ -11,13 +11,11 @@ import ru.javaops.topjava2.to.MenuResponseTo;
 
 @Mapper(config = MapConfig.class)
 public interface MenuMapper {
-
     MenuResponseTo entityToMenuResponse(Menu menu);
 
     @Mapping(target = "restaurant", source = "restaurant")
     @Mapping(target = "id", ignore = true)
     Menu requestToMenuEntity(MenuRequestTo menuTo, Restaurant restaurant);
-
 
     void updateEntity(@MappingTarget Menu menu, MenuRequestTo menuRequestTo);
 }

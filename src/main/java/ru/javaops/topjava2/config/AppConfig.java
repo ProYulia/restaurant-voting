@@ -32,7 +32,6 @@ public class AppConfig {
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
     }
 
-    //   https://stackoverflow.com/a/74630129/548473
     @JsonAutoDetect(fieldVisibility = NONE, getterVisibility = ANY)
     interface MixIn {
         @JsonAnyGetter
@@ -42,7 +41,6 @@ public class AppConfig {
     @Autowired
     void configureAndStoreObjectMapper(ObjectMapper objectMapper) {
         objectMapper.registerModule(new Hibernate5JakartaModule());
-        // ErrorHandling: https://stackoverflow.com/questions/7421474/548473
         objectMapper.addMixIn(ProblemDetail.class, MixIn.class);
         JsonUtil.setMapper(objectMapper);
     }

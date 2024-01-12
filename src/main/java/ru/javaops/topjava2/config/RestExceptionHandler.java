@@ -42,11 +42,8 @@ public class RestExceptionHandler {
 
     @Getter
     private final MessageSource messageSource;
-
-    //    https://stackoverflow.com/a/52254601/548473
     static final Map<Class<? extends Throwable>, ErrorType> HTTP_STATUS_MAP = new LinkedHashMap<>() {
         {
-// more specific first
             put(NotFoundException.class, NOT_FOUND);
             put(DataConflictException.class, DATA_CONFLICT);
             put(IllegalRequestDataException.class, BAD_REQUEST);
@@ -71,7 +68,6 @@ public class RestExceptionHandler {
         return processException(ex, request, Map.of("invalid_params", getErrorMap(ex.getBindingResult())));
     }
 
-    //   https://howtodoinjava.com/spring-mvc/spring-problemdetail-errorresponse/#5-adding-problemdetail-to-custom-exceptions
     @ExceptionHandler(Exception.class)
     public ProblemDetail exception(Exception ex, HttpServletRequest request) {
         return processException(ex, request, Map.of());

@@ -46,8 +46,6 @@ public class SecurityConfig {
         };
     }
 
-    //  https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter#configuring-websecurity
-    //  https://stackoverflow.com/a/61147599/548473
     @Bean
     WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().requestMatchers("/", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**");

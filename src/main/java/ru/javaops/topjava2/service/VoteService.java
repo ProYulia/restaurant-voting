@@ -27,7 +27,7 @@ public class VoteService {
 
     public VoteResponseTo create(VoteRequestTo voteTo, int userId) {
         checkDeadline(LocalTime.now());
-        Restaurant restaurant = restaurantRepository.getOne(voteTo.getRestaurantId());
+        Restaurant restaurant = restaurantRepository.getExisted(voteTo.getRestaurantId());
         Vote vote = voteRepository.getByUserIdAndDate(userId, LocalDate.now())
                 .orElseGet(() -> new Vote(LocalDate.now(), userRepository.getExisted(userId), restaurant));
         vote.setRestaurant(restaurant);

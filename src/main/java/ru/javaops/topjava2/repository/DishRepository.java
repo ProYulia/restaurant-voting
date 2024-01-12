@@ -13,7 +13,9 @@ public interface DishRepository extends BaseRepository<Dish> {
     default Map<Integer, List<Dish>> getRestaurantDishes() {
         return getDishesByRestaurant().stream()
                 .collect(Collectors.groupingBy(o -> (Integer) o[0], Collectors.mapping(o -> new Dish((String) o[1], (Integer) o[2]), Collectors.toList())));
-    };
+    }
+
+    ;
 
     @Query(value = "SELECT restaurant_id, d.name, d.price FROM dish d JOIN menu m on d.menu_id = m.id WHERE date_created = current_date",
             nativeQuery = true)

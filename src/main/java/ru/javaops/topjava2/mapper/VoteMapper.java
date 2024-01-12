@@ -7,6 +7,5 @@ import ru.javaops.topjava2.to.VoteResponseTo;
 
 @Mapper(config = MapConfig.class)
 public interface VoteMapper {
-
     VoteResponseTo entityToVoteResponseTo(Vote vote);
 }
