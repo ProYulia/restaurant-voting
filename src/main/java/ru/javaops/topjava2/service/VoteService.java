@@ -19,7 +19,7 @@ import java.time.LocalTime;
 @RequiredArgsConstructor
 public class VoteService {
 
-    private static final LocalTime DEADLINE = LocalTime.of(20, 0);
+    private static final LocalTime DEADLINE = LocalTime.of(11, 0);
     private final RestaurantRepository restaurantRepository;
     private final VoteRepository voteRepository;
     private final UserRepository userRepository;
