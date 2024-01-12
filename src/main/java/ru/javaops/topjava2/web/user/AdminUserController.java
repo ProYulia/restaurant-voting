@@ -18,7 +18,6 @@ import static ru.javaops.topjava2.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-// TODO: cache only most requested, seldom changed data!
 public class AdminUserController extends AbstractUserController {
 
     static final String REST_URL = "/api/admin/users";
@@ -26,13 +25,11 @@ public class AdminUserController extends AbstractUserController {
 
     @GetMapping
     public List<User> getAll() {
-        log.info("getAll");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
-        log.info("create {}", user);
         checkNew(user);
         User created = repository.prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -44,7 +41,6 @@ public class AdminUserController extends AbstractUserController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody User user, @PathVariable int id) {
-        log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         repository.prepareAndSave(user);
     }
@@ -53,7 +49,6 @@ public class AdminUserController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
-        log.info(enabled ? "enable {}" : "disable {}", id);
         User user = repository.getExisted(id);
         user.setEnabled(enabled);
     }
