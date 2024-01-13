@@ -42,6 +42,7 @@ public class RestExceptionHandler {
 
     @Getter
     private final MessageSource messageSource;
+
     static final Map<Class<? extends Throwable>, ErrorType> HTTP_STATUS_MAP = new LinkedHashMap<>() {
         {
             put(NotFoundException.class, NOT_FOUND);

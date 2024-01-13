@@ -22,6 +22,7 @@ import java.util.List;
 public class AdminRestaurantController {
 
     static final String REST_URL = "/api/admin/restaurant";
+
     private final RestaurantService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -37,7 +37,9 @@ public class MatcherFactory {
 
     public static class Matcher<T> {
         private final Class<T> clazz;
+
         private final BiConsumer<T, T> assertion;
+
         private final BiConsumer<Iterable<T>, Iterable<T>> iterableAssertion;
 
         private Matcher(Class<T> clazz, BiConsumer<T, T> assertion, BiConsumer<Iterable<T>, Iterable<T>> iterableAssertion) {

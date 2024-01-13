@@ -21,6 +21,7 @@ import java.util.List;
 @Tag(name = "admin-menu-controller")
 public class AdminMenuController {
     static final String REST_URL = "/api/admin/restaurant/{restaurantId}/menu";
+
     private final MenuService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

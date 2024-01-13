@@ -5,6 +5,7 @@ import ru.javaops.topjava2.web.MatcherFactory;
 
 public class DishTestData {
     public static final int DISH_ID = 1;
+
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "menu");
 

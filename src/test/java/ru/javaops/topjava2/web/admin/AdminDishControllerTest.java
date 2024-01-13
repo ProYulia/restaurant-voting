@@ -25,7 +25,9 @@ import static ru.javaops.topjava2.testdata.UserTestData.USER_MAIL;
 public class AdminDishControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = AdminDishController.REST_URL;
+
     private static final int RESTAURANT_ID = 1;
+
     private static final int MENU_ID = 1;
 
     @Autowired

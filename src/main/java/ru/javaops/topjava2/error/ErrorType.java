@@ -13,6 +13,7 @@ public enum ErrorType {
     FORBIDDEN("Request forbidden", HttpStatus.FORBIDDEN);
 
     public final String title;
+
     public final HttpStatus status;
 
     ErrorType(String title, HttpStatus status) {
