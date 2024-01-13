@@ -1,6 +1,8 @@
 package ru.javaops.topjava2.service;
 
+import jakarta.persistence.Transient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.javaops.topjava2.error.VoteTimeoutException;
 import ru.javaops.topjava2.mapper.VoteMapper;
@@ -19,11 +21,13 @@ import java.time.LocalTime;
 @RequiredArgsConstructor
 public class VoteService {
 
-    private static final LocalTime DEADLINE = LocalTime.of(11, 0);
     private final RestaurantRepository restaurantRepository;
     private final VoteRepository voteRepository;
     private final UserRepository userRepository;
     private final VoteMapper mapper;
+
+    @Value("${app.votingDeadline}")
+    private String deadline;
 
     public VoteResponseTo create(VoteRequestTo voteTo, int userId) {
         checkDeadline(LocalTime.now());
@@ -36,6 +40,6 @@ public class VoteService {
     }
 
     private void checkDeadline(LocalTime currentTime) {
-        if (currentTime.isAfter(DEADLINE)) throw new VoteTimeoutException(DEADLINE);
+        if (currentTime.isAfter(LocalTime.parse(deadline))) throw new VoteTimeoutException(deadline);
     }
 }
