@@ -1,6 +1,9 @@
 [Проект TopJava-2](https://javaops.ru/view/topjava2)
 
 ===============================
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c60328a3606d46e39db332a1e771c9e8)](https://app.codacy.com/gh/ProYulia/topjava2-master?utm_source=github.com&utm_medium=referral&utm_content=ProYulia/topjava2-master&utm_campaign=Badge_Grade)
+
 ### Task
 Design and implement a REST API using Hibernate/Spring/SpringMVC (Spring-Boot preferred!) **without frontend**.
 
