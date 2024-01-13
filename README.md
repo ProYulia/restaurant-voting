@@ -20,7 +20,7 @@ Each restaurant provides a new menu each day.
 
 -------------------------------------------------------------
 ### Stack
-- Stack: [JDK 17](http://jdk.java.net/17/), Spring Boot 3.x, Lombok, H2, Caffeine Cache, SpringDoc OpenApi 2.x, Mapstruct, Liquibase 
+- Stack: [JDK 17](http://jdk.java.net/17/), Spring Boot 3.x, Lombok, H2, Caffeine Cache, SpringDoc OpenApi 2.x, Mapstruct 
 - Run: `mvn spring-boot:run` in root directory.
 -----------------------------------------------------
  
