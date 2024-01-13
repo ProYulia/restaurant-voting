@@ -19,9 +19,12 @@ public interface RestaurantMapper {
     Restaurant requestToRestaurantEntity(RestaurantRequestTo restaurantRequestTo);
 
     @Mapping(target = "name", source = "restaurant.name")
-    RestaurantResponseTo entityToRestaurantResponseTo(Restaurant restaurant, Integer votes, List<Dish> dishes);
+    RestaurantResponseTo entityToRestaurantResponseTo(Restaurant restaurant,
+                                                      Integer votes,
+                                                      List<Dish> dishes);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "menu", ignore = true)
-    void updateEntity(@MappingTarget Restaurant restaurant, RestaurantRequestTo restaurantRequestTo);
+    void updateEntity(@MappingTarget Restaurant restaurant,
+                      RestaurantRequestTo restaurantRequestTo);
 }

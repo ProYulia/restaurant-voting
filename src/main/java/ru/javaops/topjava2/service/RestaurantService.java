@@ -1,8 +1,6 @@
 package ru.javaops.topjava2.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava2.mapper.RestaurantMapper;
@@ -24,8 +22,11 @@ import java.util.stream.Collectors;
 public class RestaurantService {
 
     private final RestaurantRepository repository;
+
     private final RestaurantMapper mapper;
+
     private final VoteRepository voteRepository;
+
     private final DishRepository dishRepository;
 
     @Transactional

@@ -18,6 +18,7 @@ import java.util.List;
 @Tag(name = "user-restaurant-controller")
 public class UserRestaurantController {
     static final String REST_URL = "/api/restaurant";
+
     private final RestaurantService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

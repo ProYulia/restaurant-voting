@@ -20,7 +20,9 @@ import java.util.stream.Collectors;
 public class MenuService {
 
     private final MenuRepository menuRepository;
+
     private final RestaurantRepository restaurantRepository;
+
     private final MenuMapper mapper;
 
     @Transactional

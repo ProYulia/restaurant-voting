@@ -12,16 +12,14 @@ import ru.javaops.topjava2.model.Role;
 import ru.javaops.topjava2.model.User;
 import ru.javaops.topjava2.repository.UserRepository;
 import ru.javaops.topjava2.web.AbstractControllerTest;
-import ru.javaops.topjava2.web.user.AdminUserController;
-import ru.javaops.topjava2.web.user.UniqueMailValidator;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.javaops.topjava2.web.user.AdminUserController.REST_URL;
 import static ru.javaops.topjava2.testdata.UserTestData.*;
+import static ru.javaops.topjava2.web.user.AdminUserController.REST_URL;
 
 class AdminUserControllerTest extends AbstractControllerTest {
 

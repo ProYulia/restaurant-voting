@@ -1,6 +1,5 @@
 package ru.javaops.topjava2.service;
 
-import jakarta.persistence.Transient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,8 +21,11 @@ import java.time.LocalTime;
 public class VoteService {
 
     private final RestaurantRepository restaurantRepository;
+
     private final VoteRepository voteRepository;
+
     private final UserRepository userRepository;
+
     private final VoteMapper mapper;
 
     @Value("${app.votingDeadline}")

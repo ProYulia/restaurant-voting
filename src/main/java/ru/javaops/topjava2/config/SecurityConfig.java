@@ -29,6 +29,7 @@ public class SecurityConfig {
     public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     private final UserRepository userRepository;
+
     private final RestAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean

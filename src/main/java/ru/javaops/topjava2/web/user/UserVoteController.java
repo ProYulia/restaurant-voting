@@ -22,6 +22,7 @@ import java.net.URI;
 @Tag(name = "user-vote-controller")
 public class UserVoteController {
     static final String REST_URL = "/api/vote";
+
     private final VoteService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
