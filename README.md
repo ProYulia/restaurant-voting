@@ -18,8 +18,6 @@ Build a voting system for deciding where to have lunch.
 
 Each restaurant provides a new menu each day.
 
-As a result, provide a link to github repository. It should contain the code, README.md with API documentation and couple curl commands to test it (**better - link to Swagger**).
-
 -------------------------------------------------------------
 ### Stack
 - Stack: [JDK 17](http://jdk.java.net/17/), Spring Boot 3.x, Lombok, H2, Caffeine Cache, SpringDoc OpenApi 2.x, Mapstruct, Liquibase 
