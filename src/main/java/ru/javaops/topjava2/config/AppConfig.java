@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.jakarta.Hibernate5JakartaModule;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,6 +17,7 @@ import org.springframework.http.ProblemDetail;
 import ru.javaops.topjava2.util.JsonUtil;
 
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.Map;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
@@ -43,5 +46,23 @@ public class AppConfig {
         objectMapper.registerModule(new Hibernate5JakartaModule());
         objectMapper.addMixIn(ProblemDetail.class, MixIn.class);
         JsonUtil.setMapper(objectMapper);
+    }
+
+    @Bean
+    CaffeineCache usersCache() {
+        return new CaffeineCache("users",
+                Caffeine.newBuilder()
+                        .maximumSize(100)
+                        .expireAfterAccess(Duration.ofSeconds(60))
+                        .build());
+    }
+
+    @Bean
+    CaffeineCache menusCache() {
+        return new CaffeineCache("dishes",
+                Caffeine.newBuilder()
+                        .maximumSize(100)
+                        .expireAfterWrite(Duration.ofHours(2))
+                        .build());
     }
 }
