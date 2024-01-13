@@ -22,7 +22,7 @@ import static ru.javaops.topjava2.testdata.UserTestData.USER_MAIL;
 public class AdminMenuControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = AdminMenuController.REST_URL;
-    private static final int RESTAURANT_ID = 4;
+    private static final int RESTAURANT_ID = 1;
 
     @Autowired
     private MenuRepository repository;

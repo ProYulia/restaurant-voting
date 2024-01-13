@@ -6,8 +6,8 @@ import ru.javaops.topjava2.web.MatcherFactory;
 import java.time.LocalDate;
 
 public class MenuTestData {
-    public static final int MENU1_ID = 6;
-    public static final int MENU2_ID = 8;
+    public static final int MENU1_ID = 1;
+    public static final int MENU2_ID = 3;
     public static final MatcherFactory.Matcher<Menu> MENU_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Menu.class, "restaurant", "dishes");
 

@@ -1,6 +1,7 @@
 package ru.javaops.topjava2.repository;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava2.model.Vote;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
     @Query(value = "SELECT * FROM vote WHERE user_id =:userId AND date_effective =:date", nativeQuery = true)
-    Optional<Vote> getByUserIdAndDate(int userId, LocalDate date);
+    Optional<Vote> getByUserIdAndDate(@Param("userId") int userId, @Param("date") LocalDate date);
 
     default Map<Integer, Integer> getTotal() {
         return countVotesByRestaurant().stream()

@@ -4,7 +4,7 @@ import ru.javaops.topjava2.model.Dish;
 import ru.javaops.topjava2.web.MatcherFactory;
 
 public class DishTestData {
-    public static final int DISH_ID = 10;
+    public static final int DISH_ID = 1;
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "menu");
 
