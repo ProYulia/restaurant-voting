@@ -1,4 +1,4 @@
-package com.github.proyulia.web.user;
+package com.github.proyulia.web.admin;
 
 import com.github.proyulia.model.Role;
 import com.github.proyulia.model.User;

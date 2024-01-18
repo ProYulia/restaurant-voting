@@ -25,6 +25,8 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
 
     private static final int RESTAURANT_ID = 1;
 
+    private static final int RESTAURANT2_ID = 3;
+
     @Autowired
     private MenuRepository repository;
 
@@ -65,7 +67,7 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
         Menu newMenu = MenuTestData.getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT_ID)
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT2_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newMenu)))
                 .andDo(print())
@@ -94,7 +96,7 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL, RESTAURANT_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + "/menus", RESTAURANT_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MENU_MATCHER.contentJson(menu1, menu2));

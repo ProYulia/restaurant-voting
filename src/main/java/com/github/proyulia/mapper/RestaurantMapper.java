@@ -15,7 +15,6 @@ import java.util.List;
 public interface RestaurantMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "menu", ignore = true)
     Restaurant requestToRestaurantEntity(RestaurantRequestTo restaurantRequestTo);
 
     @Mapping(target = "name", source = "restaurant.name")
@@ -24,7 +23,6 @@ public interface RestaurantMapper {
                                                       List<Dish> dishes);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "menu", ignore = true)
     void updateEntity(@MappingTarget Restaurant restaurant,
                       RestaurantRequestTo restaurantRequestTo);
 }

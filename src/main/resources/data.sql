@@ -10,7 +10,8 @@ VALUES ('USER', 1),
 
 INSERT INTO RESTAURANT (name)
 VALUES ('Pizzeria'),
-       ('Sushi');
+       ('Sushi'),
+       ('Chinese');
 
 INSERT INTO MENU (date_effective, restaurant_id)
 VALUES ('2023-12-23', 1),

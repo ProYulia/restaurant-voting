@@ -99,7 +99,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL, RESTAURANT_ID, MENU1_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + "/dishes", RESTAURANT_ID, MENU1_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(DISH_MATCHER.contentJson(List.of(dish1)));
