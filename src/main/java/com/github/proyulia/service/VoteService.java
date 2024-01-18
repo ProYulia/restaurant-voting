@@ -2,17 +2,19 @@ package com.github.proyulia.service;
 
 import com.github.proyulia.error.IllegalRequestDataException;
 import com.github.proyulia.error.VoteTimeoutException;
+import com.github.proyulia.mapper.VoteMapper;
 import com.github.proyulia.model.Restaurant;
 import com.github.proyulia.model.Vote;
 import com.github.proyulia.repository.RestaurantRepository;
+import com.github.proyulia.repository.UserRepository;
+import com.github.proyulia.repository.VoteRepository;
 import com.github.proyulia.to.VoteRequestTo;
 import com.github.proyulia.to.VoteResponseTo;
+import com.github.proyulia.web.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.github.proyulia.mapper.VoteMapper;
-import com.github.proyulia.repository.UserRepository;
-import com.github.proyulia.repository.VoteRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,20 +27,20 @@ public class VoteService {
 
     private final VoteRepository voteRepository;
 
-    private final UserRepository userRepository;
-
     private final VoteMapper mapper;
 
     @Value("${app.votingDeadline}")
     private String deadline;
 
-    public VoteResponseTo create(VoteRequestTo voteTo, int userId) {
+    @Transactional
+    public VoteResponseTo create(VoteRequestTo voteTo, AuthUser authUser) {
         int restaurantId = voteTo.getRestaurantId();
+        LocalDate currentDate = LocalDate.now();
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new IllegalRequestDataException("No restaurant with id = " + restaurantId));
 
-        Vote vote = new Vote(LocalDate.now(), userRepository.getExisted(userId), restaurant);
-        if (voteRepository.getByUserIdAndDate(userId, LocalDate.now()).isEmpty()) {
+        Vote vote = new Vote(currentDate, authUser.getUser(), restaurant);
+        if (voteRepository.getByUserIdAndDate(authUser.getUser().id(), currentDate).isEmpty()) {
             Vote persisted = voteRepository.save(vote);
             return mapper.entityToVoteResponseTo(persisted);
         } else {

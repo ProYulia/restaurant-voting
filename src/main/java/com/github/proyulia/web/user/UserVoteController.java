@@ -28,7 +28,7 @@ public class UserVoteController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoteResponseTo> create(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody VoteRequestTo voteTo) {
         int userId = authUser.id();
-        VoteResponseTo vote = service.create(voteTo, userId);
+        VoteResponseTo vote = service.create(voteTo, authUser);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(vote.getId())
