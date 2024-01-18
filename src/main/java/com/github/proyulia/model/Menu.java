@@ -22,7 +22,7 @@ public class Menu extends BaseEntity {
     @NotNull
     private LocalDate date;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
     private Restaurant restaurant;
