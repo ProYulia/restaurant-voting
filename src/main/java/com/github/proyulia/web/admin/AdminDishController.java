@@ -30,7 +30,7 @@ public class AdminDishController {
                                                  @PathVariable int menuId,
                                                  @PathVariable int restaurantId) {
 
-        DishResponseTo created = service.create(dish, menuId);
+        DishResponseTo created = service.create(dish, menuId, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(restaurantId, menuId, created.getId())
@@ -45,7 +45,7 @@ public class AdminDishController {
                        @PathVariable int menuId,
                        @PathVariable int restaurantId) {
 
-        service.update(dishRequestTo, id, menuId);
+        service.update(dishRequestTo, id, menuId, restaurantId);
     }
 
     @GetMapping(value = "/dishes", produces = MediaType.APPLICATION_JSON_VALUE)

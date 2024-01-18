@@ -6,6 +6,7 @@ import com.github.proyulia.to.UserTo;
 import com.github.proyulia.util.JsonUtil;
 import com.github.proyulia.util.UsersUtil;
 import com.github.proyulia.web.AbstractControllerTest;
+import com.github.proyulia.web.UniqueMailValidator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

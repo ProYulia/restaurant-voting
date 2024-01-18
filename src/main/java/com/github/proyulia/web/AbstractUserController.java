@@ -1,4 +1,4 @@
-package com.github.proyulia.web.user;
+package com.github.proyulia.web;
 
 import com.github.proyulia.model.User;
 import org.slf4j.Logger;

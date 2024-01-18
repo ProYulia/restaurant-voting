@@ -1,7 +1,8 @@
-package com.github.proyulia.web.user;
+package com.github.proyulia.web.admin;
 
 import com.github.proyulia.model.User;
 import com.github.proyulia.util.validation.ValidationUtil;
+import com.github.proyulia.web.AbstractUserController;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;

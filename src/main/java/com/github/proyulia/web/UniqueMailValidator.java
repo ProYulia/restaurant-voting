@@ -1,4 +1,4 @@
-package com.github.proyulia.web.user;
+package com.github.proyulia.web;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;

@@ -4,6 +4,8 @@ import com.github.proyulia.model.Role;
 import com.github.proyulia.model.User;
 import com.github.proyulia.testdata.UserTestData;
 import com.github.proyulia.web.AbstractControllerTest;
+import com.github.proyulia.web.UniqueMailValidator;
+import com.github.proyulia.web.admin.AdminUserController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

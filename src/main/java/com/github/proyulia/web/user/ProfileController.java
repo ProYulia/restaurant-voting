@@ -3,6 +3,7 @@ package com.github.proyulia.web.user;
 import com.github.proyulia.model.User;
 import com.github.proyulia.util.UsersUtil;
 import com.github.proyulia.util.validation.ValidationUtil;
+import com.github.proyulia.web.AbstractUserController;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
