@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Range;
 
 
 @Entity
-@Table(name = "dish")
+@Table
 @Getter
 @Setter
 @NoArgsConstructor
