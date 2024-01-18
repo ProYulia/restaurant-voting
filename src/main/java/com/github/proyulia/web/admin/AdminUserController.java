@@ -21,7 +21,6 @@ public class AdminUserController extends AbstractUserController {
 
     static final String REST_URL = "/api/admin/users";
 
-
     @GetMapping
     public List<User> getAll() {
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));

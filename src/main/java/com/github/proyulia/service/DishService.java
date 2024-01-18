@@ -35,7 +35,7 @@ public class DishService {
 
     private final DishMapper mapper;
 
-    @CacheEvict(allEntries = true)
+    @CacheEvict(value = "dishes")
     @Transactional
     public DishResponseTo create(DishRequestTo dishTo, int menuId, int restaurantId) {
         validateData(menuId, restaurantId);
@@ -46,7 +46,7 @@ public class DishService {
         return mapper.entityToDishResponse(persisted);
     }
 
-    @CacheEvict(allEntries = true)
+    @CacheEvict(value = "dishes", key = "#id")
     @Transactional
     public void update(DishRequestTo dishRequestTo, int id, int menuId, int restaurantId) {
         validateData(menuId, restaurantId);
@@ -63,6 +63,7 @@ public class DishService {
                 .collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "dishes", key = "#id")
     public void delete(int id, int menuId, int restaurantId) {
         Menu menu = menuRepository.getExisted(menuId);
         isDeletionAllowed(menu);

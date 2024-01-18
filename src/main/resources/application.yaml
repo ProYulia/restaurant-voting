@@ -25,10 +25,6 @@ spring:
       setter: none
       is-getter: none
 
-  cache:
-    cache-names: users
-    caffeine.spec: maximumSize=1,expireAfterAccess=60s
-
 logging:
   level:
     root: WARN

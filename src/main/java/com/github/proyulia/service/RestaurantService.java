@@ -10,6 +10,9 @@ import com.github.proyulia.repository.VoteRepository;
 import com.github.proyulia.to.RestaurantRequestTo;
 import com.github.proyulia.to.RestaurantResponseTo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@CacheConfig(cacheNames = "restaurants")
 @RequiredArgsConstructor
 public class RestaurantService {
 
@@ -30,6 +34,7 @@ public class RestaurantService {
 
     private final DishRepository dishRepository;
 
+    @CacheEvict(value = "restaurants")
     @Transactional
     public RestaurantResponseTo create(RestaurantRequestTo restaurantTo) {
         Restaurant restaurant = mapper.requestToRestaurantEntity(restaurantTo);
@@ -37,6 +42,7 @@ public class RestaurantService {
         return mapper.entityToRestaurantResponseTo(persisted, 0, null);
     }
 
+    @Cacheable
     public List<RestaurantResponseTo> getAllByDate(LocalDate date) {
         Map<Integer, Integer> votes = voteRepository.getTotal();
         Map<Integer, List<Dish>> dishes = dishRepository.getRestaurantDishes();
@@ -45,6 +51,7 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "restaurants", key = "#id")
     @Transactional
     public void update(RestaurantRequestTo restaurantTo, int id) {
         Restaurant restaurant = repository.getExisted(id);
@@ -66,6 +73,7 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "restaurants", key = "#id")
     public void delete(int id) {
         isDeletionAllowed(id);
         repository.deleteExisted(id);

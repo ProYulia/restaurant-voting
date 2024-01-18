@@ -1,11 +1,14 @@
 package com.github.proyulia.web.user;
 
 import com.github.proyulia.model.User;
+import com.github.proyulia.to.UserTo;
 import com.github.proyulia.util.UsersUtil;
 import com.github.proyulia.util.validation.ValidationUtil;
 import com.github.proyulia.web.AbstractUserController;
+import com.github.proyulia.web.AuthUser;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +16,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.github.proyulia.to.UserTo;
-import com.github.proyulia.web.AuthUser;
 
 import java.net.URI;
 
@@ -30,12 +31,14 @@ public class ProfileController extends AbstractUserController {
         return authUser.getUser();
     }
 
+    @CacheEvict(value = "users", key = "#authUser.id()")
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
         super.delete(authUser.id());
     }
 
+    @CacheEvict(value = "users")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
@@ -47,6 +50,7 @@ public class ProfileController extends AbstractUserController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+    @CacheEvict(value = "users", key = "#authUser.id()")
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
