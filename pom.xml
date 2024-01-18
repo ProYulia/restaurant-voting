@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ru.javaops</groupId>
-    <artifactId>topjava2</artifactId>
+    <artifactId>restaurant-voting</artifactId>
     <version>1.0</version>
 
     <name>Restaurant Voting Application</name>

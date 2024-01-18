@@ -12,7 +12,7 @@ INSERT INTO RESTAURANT (name)
 VALUES ('Pizzeria'),
        ('Sushi');
 
-INSERT INTO MENU (date_created, restaurant_id)
+INSERT INTO MENU (date_effective, restaurant_id)
 VALUES ('2023-12-23', 1),
        ('2023-12-23', 2),
        (CURRENT_DATE, 1),
