@@ -1,20 +1,17 @@
 package com.github.proyulia.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.proyulia.HasIdAndEmail;
+import com.github.proyulia.util.validation.NoHtml;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
-import com.github.proyulia.HasIdAndEmail;
-import com.github.proyulia.util.validation.NoHtml;
 
 import java.util.*;
 
@@ -23,6 +20,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(callSuper = true)
 public class User extends NamedEntity implements HasIdAndEmail {
 
     @Column(name = "email", nullable = false, unique = true)
@@ -36,14 +34,17 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @NotBlank
     @Size(max = 128)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private String password;
 
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    @ToString.Exclude
     private boolean enabled = true;
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @ToString.Exclude
     private Date registered = new Date();
 
     @Enumerated(EnumType.STRING)
@@ -54,6 +55,7 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinColumn
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @ToString.Exclude
     private Set<Role> roles;
 
     public User(User u) {
@@ -79,10 +81,5 @@ public class User extends NamedEntity implements HasIdAndEmail {
 
     public boolean hasRole(Role role) {
         return roles != null && roles.contains(role);
-    }
-
-    @Override
-    public String toString() {
-        return "User:" + id + '[' + email + ']';
     }
 }

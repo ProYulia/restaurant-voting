@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class Menu extends BaseEntity {
 
     @Column(name = "date_effective", nullable = false)
@@ -25,10 +27,12 @@ public class Menu extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
+    @ToString.Exclude
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "menu")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @ToString.Exclude
     private List<Dish> dishes;
 
     public Menu(LocalDate date) {
@@ -38,10 +42,5 @@ public class Menu extends BaseEntity {
     public Menu(Integer id, LocalDate date) {
         super(id);
         this.date = date;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + '[' + date + ']';
     }
 }

@@ -1,11 +1,11 @@
 package com.github.proyulia.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Range;
 
 
@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.Range;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class Dish extends NamedEntity {
 
     @Column(nullable = false)
@@ -23,6 +24,7 @@ public class Dish extends NamedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id", nullable = false)
+    @ToString.Exclude
     private Menu menu;
 
     public Dish(Integer id, String name, Integer price) {
@@ -33,10 +35,5 @@ public class Dish extends NamedEntity {
     public Dish(String name, Integer price) {
         this.name = name;
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + '[' + price + ']';
     }
 }
