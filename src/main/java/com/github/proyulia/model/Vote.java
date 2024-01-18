@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Vote extends BaseEntity {
 
-    @Column(name = "date_effective")
+    @Column(name = "date_created")
     @NotNull
     private LocalDate date;
 

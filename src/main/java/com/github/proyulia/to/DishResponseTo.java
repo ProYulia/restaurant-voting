@@ -1,23 +1,18 @@
 package com.github.proyulia.to;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DishResponseTo {
 
-    @NotNull
     private Integer id;
 
-    @NotBlank
-    @Size(min = 3, max = 100)
     private String name;
 
-    @NotNull
     private Integer price;
 }

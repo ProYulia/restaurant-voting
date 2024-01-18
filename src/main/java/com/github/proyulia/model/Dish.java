@@ -14,7 +14,6 @@ import org.hibernate.validator.constraints.Range;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Dish extends NamedEntity {
 
     @Column(nullable = false)

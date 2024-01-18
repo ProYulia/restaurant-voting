@@ -37,10 +37,10 @@ public class RestaurantService {
         return mapper.entityToRestaurantResponseTo(persisted, 0, null);
     }
 
-    public List<RestaurantResponseTo> getAllByDate(LocalDate today) {
+    public List<RestaurantResponseTo> getAllByDate(LocalDate date) {
         Map<Integer, Integer> votes = voteRepository.getTotal();
         Map<Integer, List<Dish>> dishes = dishRepository.getRestaurantDishes();
-        return repository.findAllFilteredByDate(today).stream()
+        return repository.findAllFilteredByDate(date).stream()
                 .map(r -> mapper.entityToRestaurantResponseTo(r, votes.getOrDefault(r.getId(), 0), dishes.getOrDefault(r.getId(), null)))
                 .collect(Collectors.toList());
     }
