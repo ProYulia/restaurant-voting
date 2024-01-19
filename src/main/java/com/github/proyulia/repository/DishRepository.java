@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
@@ -19,7 +20,9 @@ public interface DishRepository extends BaseRepository<Dish> {
             nativeQuery = true)
     List<Object[]> getDishesByRestaurant();
 
-    List<Dish> findAllByMenuIdAndMenuRestaurantId(int menuId, int restaurantId);
+    Optional<List<Dish>> findAllByMenuIdAndMenuRestaurantId(int menuId, int restaurantId);
 
     void deleteExistedByIdAndMenuIdAndMenuRestaurantId(int id, int menuId, int restaurantId);
+
+    Optional<Dish> findByIdAndMenuIdAndMenuRestaurantId(int id, int menuId, int restaurantId);
 }

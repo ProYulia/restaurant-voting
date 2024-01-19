@@ -53,6 +53,11 @@ public class AdminRestaurantController {
         return service.getAll();
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public RestaurantResponseTo get(@PathVariable int id) {
+        return service.get(id);
+    }
+
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {

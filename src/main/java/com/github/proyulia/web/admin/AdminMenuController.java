@@ -51,6 +51,11 @@ public class AdminMenuController {
         return service.getAll(restaurantId);
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MenuResponseTo get(@PathVariable int id, @PathVariable int restaurantId) {
+        return service.get(id, restaurantId);
+    }
+
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id, @PathVariable int restaurantId) {

@@ -53,11 +53,20 @@ public class AdminDishController {
         return service.getAll(menuId, restaurantId);
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public DishResponseTo get(@PathVariable int id,
+                              @PathVariable int menuId,
+                              @PathVariable int restaurantId) {
+
+        return service.get(id, menuId, restaurantId);
+    }
+
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id,
                        @PathVariable int menuId,
                        @PathVariable int restaurantId) {
+
         service.delete(id, menuId, restaurantId);
     }
 }

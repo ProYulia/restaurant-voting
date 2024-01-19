@@ -1,12 +1,13 @@
 package com.github.proyulia.service;
 
+import com.github.proyulia.error.ErrorType;
 import com.github.proyulia.error.IllegalRequestDataException;
+import com.github.proyulia.error.NotFoundException;
 import com.github.proyulia.error.VoteTimeoutException;
 import com.github.proyulia.mapper.VoteMapper;
 import com.github.proyulia.model.Restaurant;
 import com.github.proyulia.model.Vote;
 import com.github.proyulia.repository.RestaurantRepository;
-import com.github.proyulia.repository.UserRepository;
 import com.github.proyulia.repository.VoteRepository;
 import com.github.proyulia.to.VoteRequestTo;
 import com.github.proyulia.to.VoteResponseTo;
@@ -37,12 +38,11 @@ public class VoteService {
         int restaurantId = voteTo.getRestaurantId();
         LocalDate currentDate = LocalDate.now();
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new IllegalRequestDataException("No restaurant with id = " + restaurantId));
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
 
         Vote vote = new Vote(currentDate, authUser.getUser(), restaurant);
         if (voteRepository.getByUserIdAndDate(authUser.getUser().id(), currentDate).isEmpty()) {
-            Vote persisted = voteRepository.save(vote);
-            return mapper.entityToVoteResponseTo(persisted);
+            return mapper.entityToVoteResponseTo(voteRepository.save(vote));
         } else {
             throw new IllegalRequestDataException("Vote already exists");
         }
@@ -52,7 +52,7 @@ public class VoteService {
         checkDeadline(LocalTime.now());
         int restaurantId = voteTo.getRestaurantId();
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new IllegalRequestDataException("No restaurant with id = " + restaurantId));
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
         Vote vote = voteRepository.getByUserIdAndDate(userId, LocalDate.now())
                 .orElseThrow(() -> new IllegalRequestDataException("You should vote first"));
         vote.setRestaurant(restaurant);

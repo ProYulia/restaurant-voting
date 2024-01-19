@@ -1,6 +1,8 @@
 package com.github.proyulia.service;
 
 import com.github.proyulia.error.DeletionNotAllowedException;
+import com.github.proyulia.error.ErrorType;
+import com.github.proyulia.error.NotFoundException;
 import com.github.proyulia.mapper.RestaurantMapper;
 import com.github.proyulia.model.Dish;
 import com.github.proyulia.model.Restaurant;
@@ -37,8 +39,7 @@ public class RestaurantService {
     @CacheEvict(value = "restaurants")
     @Transactional
     public RestaurantResponseTo create(RestaurantRequestTo restaurantTo) {
-        Restaurant restaurant = mapper.requestToRestaurantEntity(restaurantTo);
-        Restaurant persisted = repository.save(restaurant);
+        Restaurant persisted = repository.save(mapper.requestToRestaurantEntity(restaurantTo));
         return mapper.entityToRestaurantResponseTo(persisted, 0, null);
     }
 
@@ -54,7 +55,8 @@ public class RestaurantService {
     @CacheEvict(value = "restaurants", key = "#id")
     @Transactional
     public void update(RestaurantRequestTo restaurantTo, int id) {
-        Restaurant restaurant = repository.getExisted(id);
+        Restaurant restaurant = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
         mapper.updateEntity(restaurant, restaurantTo);
         repository.save(restaurant);
     }
@@ -73,9 +75,17 @@ public class RestaurantService {
                 .collect(Collectors.toList());
     }
 
+    public RestaurantResponseTo get(int id) {
+        Restaurant restaurant = repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
+        return mapper.entityToRestaurantResponseTo(restaurant, null, null);
+    }
+
     @CacheEvict(value = "restaurants", key = "#id")
     public void delete(int id) {
         isDeletionAllowed(id);
+        repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
         repository.deleteExisted(id);
     }
 
