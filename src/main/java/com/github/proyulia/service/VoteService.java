@@ -2,8 +2,6 @@ package com.github.proyulia.service;
 
 import com.github.proyulia.error.ErrorType;
 import com.github.proyulia.error.IllegalRequestDataException;
-import com.github.proyulia.error.NotFoundException;
-import com.github.proyulia.error.VoteTimeoutException;
 import com.github.proyulia.mapper.VoteMapper;
 import com.github.proyulia.model.Restaurant;
 import com.github.proyulia.model.Vote;
@@ -14,6 +12,9 @@ import com.github.proyulia.to.VoteResponseTo;
 import com.github.proyulia.web.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Service
+@CacheConfig(cacheNames = "votes")
 @RequiredArgsConstructor
 public class VoteService {
 
@@ -31,8 +33,9 @@ public class VoteService {
     private final VoteMapper mapper;
 
     @Value("${app.votingDeadline}")
-    private String deadline;
+    private LocalTime deadline;
 
+    @Cacheable
     @Transactional
     public VoteResponseTo create(VoteRequestTo voteTo, AuthUser authUser) {
         int restaurantId = voteTo.getRestaurantId();
@@ -48,6 +51,7 @@ public class VoteService {
         }
     }
 
+    @CacheEvict(value = "votes", key = "#userId")
     public void update(VoteRequestTo voteTo, int userId) {
         checkDeadline(LocalTime.now());
         int restaurantId = voteTo.getRestaurantId();
@@ -61,6 +65,7 @@ public class VoteService {
 
 
     private void checkDeadline(LocalTime currentTime) {
-        if (currentTime.isAfter(LocalTime.parse(deadline))) throw new VoteTimeoutException(deadline);
+        if (currentTime.isAfter(deadline))
+            throw new IllegalRequestDataException("Impossible to change vote after " + deadline);
     }
 }

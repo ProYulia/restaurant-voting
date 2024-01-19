@@ -65,4 +65,13 @@ public class AppConfig {
                         .expireAfterWrite(Duration.ofHours(2))
                         .build());
     }
+
+    @Bean
+    CaffeineCache votesCache() {
+        return new CaffeineCache("votes",
+                Caffeine.newBuilder()
+                        .maximumSize(1000)
+                        .expireAfterWrite(Duration.ofHours(8))
+                        .build());
+    }
 }

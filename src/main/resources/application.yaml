@@ -40,4 +40,4 @@ server.servlet:
 springdoc.swagger-ui.path: /
 
 app:
-  votingDeadline: "20:00"
+  votingDeadline: "11:00"
