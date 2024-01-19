@@ -1,26 +1,26 @@
 package com.github.proyulia.web.admin;
 
 import com.github.proyulia.model.Dish;
+import com.github.proyulia.repository.DishRepository;
+import com.github.proyulia.testdata.DishTestData;
 import com.github.proyulia.util.JsonUtil;
+import com.github.proyulia.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import com.github.proyulia.repository.DishRepository;
-import com.github.proyulia.testdata.DishTestData;
-import com.github.proyulia.web.AbstractControllerTest;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static com.github.proyulia.testdata.DishTestData.*;
 import static com.github.proyulia.testdata.MenuTestData.MENU1_ID;
 import static com.github.proyulia.testdata.UserTestData.ADMIN_MAIL;
 import static com.github.proyulia.testdata.UserTestData.USER_MAIL;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AdminDishControllerTest extends AbstractControllerTest {
 
@@ -35,7 +35,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     void createUnAuth() throws Exception {
-        Dish newDish = DishTestData.getNew();
+        Dish newDish = getNew();
         perform(MockMvcRequestBuilders
                 .post(REST_URL, RESTAURANT_ID, MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -47,7 +47,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void createForbidden() throws Exception {
-        Dish newDish = DishTestData.getNew();
+        Dish newDish = getNew();
         perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT_ID, MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newDish)))
@@ -69,7 +69,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        Dish newDish = DishTestData.getNew();
+        Dish newDish = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT_ID, MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newDish)))
@@ -87,7 +87,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        Dish updated = DishTestData.getUpdated();
+        Dish updated = getUpdated();
         perform(MockMvcRequestBuilders.put(REST_URL + "/{id}", RESTAURANT_ID, MENU_ID, DISH_ID).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())

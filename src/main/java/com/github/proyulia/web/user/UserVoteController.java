@@ -1,5 +1,9 @@
 package com.github.proyulia.web.user;
 
+import com.github.proyulia.service.VoteService;
+import com.github.proyulia.to.VoteRequestTo;
+import com.github.proyulia.to.VoteResponseTo;
+import com.github.proyulia.web.AuthUser;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,10 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.github.proyulia.service.VoteService;
-import com.github.proyulia.to.VoteRequestTo;
-import com.github.proyulia.to.VoteResponseTo;
-import com.github.proyulia.web.AuthUser;
 
 import java.net.URI;
 
@@ -27,7 +27,6 @@ public class UserVoteController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoteResponseTo> create(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody VoteRequestTo voteTo) {
-        int userId = authUser.id();
         VoteResponseTo vote = service.create(voteTo, authUser);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

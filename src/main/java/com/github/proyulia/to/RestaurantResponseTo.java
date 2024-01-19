@@ -1,7 +1,6 @@
 package com.github.proyulia.to;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.github.proyulia.model.Dish;
 import lombok.Getter;
 import lombok.Setter;
 
