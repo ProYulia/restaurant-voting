@@ -43,7 +43,8 @@ public class RestExceptionHandler {
     @Getter
     private final MessageSource messageSource;
 
-    static final Map<Class<? extends Throwable>, ErrorType> HTTP_STATUS_MAP = new LinkedHashMap<>() {
+    static final Map<Class<? extends Throwable>,
+            ErrorType> HTTP_STATUS_MAP = new LinkedHashMap<>() {
         {
             put(NotFoundException.class, NOT_FOUND);
             put(DataConflictException.class, DATA_CONFLICT);
@@ -65,8 +66,11 @@ public class RestExceptionHandler {
     };
 
     @ExceptionHandler(BindException.class)
-    public ProblemDetail bindException(BindException ex, HttpServletRequest request) {
-        return processException(ex, request, Map.of("invalid_params", getErrorMap(ex.getBindingResult())));
+    public ProblemDetail bindException(BindException ex,
+                                       HttpServletRequest request) {
+        return processException(ex, request,
+                Map.of("invalid_params",
+                        getErrorMap(ex.getBindingResult())));
     }
 
     @ExceptionHandler(Exception.class)
@@ -86,10 +90,12 @@ public class RestExceptionHandler {
                 .findAny().map(Map.Entry::getValue);
         if (optType.isPresent()) {
             log.error(ERR_PFX + "Exception {} at request {}", ex, path);
-            return createProblemDetail(ex, optType.get(), ex.getMessage(), additionalParams);
+            return createProblemDetail(ex, optType.get(), ex.getMessage(),
+                    additionalParams);
         } else {
             Throwable root = getRootCause(ex);
-            log.error(ERR_PFX + "Exception " + root + " at request " + path, root);
+            log.error(ERR_PFX + "Exception " + root + " at request " + path,
+                    root);
             return createProblemDetail(ex,
                     APP_ERROR,
                     "Exception " + root.getClass().getSimpleName(),
@@ -101,8 +107,11 @@ public class RestExceptionHandler {
                                               ErrorType type,
                                               String defaultDetail,
                                               @NonNull Map<String, Object> additionalParams) {
-        ErrorResponse.Builder builder = ErrorResponse.builder(ex, type.status, defaultDetail);
-        ProblemDetail pd = builder.build().updateAndGetBody(messageSource, LocaleContextHolder.getLocale());
+        ErrorResponse.Builder builder = ErrorResponse.builder(ex, type.status
+                , defaultDetail);
+        ProblemDetail pd = builder.build()
+                .updateAndGetBody(messageSource,
+                        LocaleContextHolder.getLocale());
         additionalParams.forEach(pd::setProperty);
         return pd;
     }
@@ -126,7 +135,6 @@ public class RestExceptionHandler {
                 LocaleContextHolder.getLocale());
     }
 
-    //  https://stackoverflow.com/a/65442410/548473
     @NonNull
     public static Throwable getRootCause(@NonNull Throwable t) {
         Throwable rootCause = NestedExceptionUtils.getRootCause(t);

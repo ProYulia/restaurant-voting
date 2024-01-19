@@ -24,7 +24,8 @@ public class AdminDishController {
 
     private final DishService service;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<DishResponseTo> create(@Valid @RequestBody DishRequestTo dish,
                                                  @PathVariable int menuId,
@@ -49,7 +50,9 @@ public class AdminDishController {
     }
 
     @GetMapping(value = "/dishes", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<DishResponseTo> getAll(@PathVariable int menuId, @PathVariable int restaurantId) {
+    public List<DishResponseTo> getAll(@PathVariable int menuId,
+                                       @PathVariable int restaurantId) {
+
         return service.getAll(menuId, restaurantId);
     }
 

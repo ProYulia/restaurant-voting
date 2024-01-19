@@ -24,7 +24,8 @@ public class AdminMenuController {
 
     private final MenuService service;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<MenuResponseTo> create(@Valid @RequestBody MenuRequestTo menu,
                                                  @PathVariable int restaurantId) {

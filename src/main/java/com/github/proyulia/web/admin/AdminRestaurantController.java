@@ -25,35 +25,44 @@ public class AdminRestaurantController {
 
     private final RestaurantService service;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<RestaurantResponseTo> create(@Valid @RequestBody RestaurantRequestTo restaurant) {
 
         RestaurantResponseTo created = service.create(restaurant);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+        URI uriOfNewResource =
+                ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId())
                 .toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @Valid @RequestBody RestaurantRequestTo restaurant) {
+    public void update(@PathVariable int id,
+                       @Valid @RequestBody RestaurantRequestTo restaurant) {
+
         service.update(restaurant, id);
     }
 
-    @GetMapping(value = "/restaurants-with-menus", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/restaurants-with-menus",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantResponseTo> getAllWithMenus() {
         return service.getAllWithMenus();
     }
 
-    @GetMapping(value = "/restaurants", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/restaurants",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantResponseTo> getAll() {
         return service.getAll();
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public RestaurantResponseTo get(@PathVariable int id) {
         return service.get(id);
     }

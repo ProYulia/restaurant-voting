@@ -36,7 +36,8 @@ public class UniqueMailValidator implements org.springframework.validation.Valid
                             if (user.getId() != null && dbId == user.id()) return;
 
                             String requestURI = request.getRequestURI();
-                            if (requestURI.endsWith("/" + dbId) || (dbId == AuthUser.authId() && requestURI.contains("/profile")))
+                            if (requestURI.endsWith("/" + dbId) ||
+                                    (dbId == AuthUser.authId() && requestURI.contains("/profile")))
                                 return;
                         }
                         errors.rejectValue("email", "", EXCEPTION_DUPLICATE_EMAIL);

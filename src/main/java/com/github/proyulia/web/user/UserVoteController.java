@@ -25,8 +25,10 @@ public class UserVoteController {
 
     private final VoteService service;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VoteResponseTo> create(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody VoteRequestTo voteTo) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<VoteResponseTo> create(@AuthenticationPrincipal AuthUser authUser,
+                                                 @Valid @RequestBody VoteRequestTo voteTo) {
         VoteResponseTo vote = service.create(voteTo, authUser);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -38,7 +40,8 @@ public class UserVoteController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@AuthenticationPrincipal AuthUser authUser, @Valid @RequestBody VoteRequestTo voteTo) {
+    public void update(@AuthenticationPrincipal AuthUser authUser,
+                       @Valid @RequestBody VoteRequestTo voteTo) {
         int userId = authUser.id();
         service.update(voteTo, userId);
     }

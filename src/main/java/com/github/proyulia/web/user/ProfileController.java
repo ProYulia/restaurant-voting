@@ -20,7 +20,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = ProfileController.REST_URL,
+        produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class ProfileController extends AbstractUserController {
     static final String REST_URL = "/api/profile";
@@ -42,6 +43,7 @@ public class ProfileController extends AbstractUserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
+
         log.info("register {}", userTo);
         ValidationUtil.checkNew(userTo);
         User created = repository.prepareAndSave(UsersUtil.createNewFromTo(userTo));
@@ -54,7 +56,9 @@ public class ProfileController extends AbstractUserController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
-    public void update(@RequestBody @Valid UserTo userTo, @AuthenticationPrincipal AuthUser authUser) {
+    public void update(@RequestBody @Valid UserTo userTo,
+                       @AuthenticationPrincipal AuthUser authUser) {
+
         log.info("update {} with id={}", userTo, authUser.id());
         ValidationUtil.assureIdConsistent(userTo, authUser.id());
         User user = authUser.getUser();
