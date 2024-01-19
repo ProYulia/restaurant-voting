@@ -1,13 +1,13 @@
 package com.github.proyulia.web.user;
 
+import com.github.proyulia.service.RestaurantService;
+import com.github.proyulia.to.RestaurantTo;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.github.proyulia.service.RestaurantService;
-import com.github.proyulia.to.RestaurantResponseTo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,7 +22,7 @@ public class UserRestaurantController {
     private final RestaurantService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RestaurantResponseTo> getAllEffective() {
+    public List<RestaurantTo> getAllEffective() {
         return service.getAllByDate(LocalDate.now());
     }
 }

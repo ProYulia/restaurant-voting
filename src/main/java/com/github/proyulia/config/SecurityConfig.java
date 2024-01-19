@@ -1,5 +1,9 @@
 package com.github.proyulia.config;
 
+import com.github.proyulia.model.Role;
+import com.github.proyulia.model.User;
+import com.github.proyulia.repository.UserRepository;
+import com.github.proyulia.web.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -14,10 +18,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import com.github.proyulia.model.Role;
-import com.github.proyulia.model.User;
-import com.github.proyulia.repository.UserRepository;
-import com.github.proyulia.web.AuthUser;
 
 import java.util.Optional;
 

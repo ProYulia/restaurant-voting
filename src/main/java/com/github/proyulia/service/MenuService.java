@@ -8,8 +8,7 @@ import com.github.proyulia.model.Menu;
 import com.github.proyulia.model.Restaurant;
 import com.github.proyulia.repository.MenuRepository;
 import com.github.proyulia.repository.RestaurantRepository;
-import com.github.proyulia.to.MenuRequestTo;
-import com.github.proyulia.to.MenuResponseTo;
+import com.github.proyulia.to.MenuTo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,33 +28,33 @@ public class MenuService {
     private final MenuMapper mapper;
 
     @Transactional
-    public MenuResponseTo create(MenuRequestTo menuTo, int restaurantId) {
+    public MenuTo create(MenuTo menuTo, int restaurantId) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
-        Menu persisted = menuRepository.save(mapper.requestToMenuEntity(menuTo, restaurant));
-        return mapper.entityToMenuResponse(persisted);
+        Menu persisted = menuRepository.save(mapper.toMenuEntity(menuTo, restaurant));
+        return mapper.toMenuTo(persisted);
     }
 
     @Transactional
-    public void update(MenuRequestTo menuRequestTo, int id, int restaurantId) {
+    public void update(MenuTo menuTo, int id, int restaurantId) {
         Menu menu = menuRepository.findByIdAndRestaurantId(id, restaurantId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
-        mapper.updateEntity(menu, menuRequestTo);
+        mapper.updateEntity(menu, menuTo);
         menuRepository.save(menu);
     }
 
-    public List<MenuResponseTo> getAll(int restaurantId) {
+    public List<MenuTo> getAll(int restaurantId) {
         return menuRepository.findAllByRestaurantId(restaurantId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title))
                 .stream()
-                .map(mapper::entityToMenuResponse)
+                .map(mapper::toMenuTo)
                 .collect(Collectors.toList());
     }
 
-    public MenuResponseTo get(int id, int restaurantId) {
+    public MenuTo get(int id, int restaurantId) {
         Menu menu = menuRepository.findByIdAndRestaurantId(id, restaurantId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
-        return mapper.entityToMenuResponse(menu);
+        return mapper.toMenuTo(menu);
     }
 
     public void delete(int id, int restaurantId) {

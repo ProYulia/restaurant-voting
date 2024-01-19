@@ -1,8 +1,7 @@
 package com.github.proyulia.web.user;
 
 import com.github.proyulia.service.VoteService;
-import com.github.proyulia.to.VoteRequestTo;
-import com.github.proyulia.to.VoteResponseTo;
+import com.github.proyulia.to.VoteTo;
 import com.github.proyulia.web.AuthUser;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -27,9 +26,9 @@ public class UserVoteController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VoteResponseTo> create(@AuthenticationPrincipal AuthUser authUser,
-                                                 @Valid @RequestBody VoteRequestTo voteTo) {
-        VoteResponseTo vote = service.create(voteTo, authUser);
+    public ResponseEntity<VoteTo> create(@AuthenticationPrincipal AuthUser authUser,
+                                         @Valid @RequestBody VoteTo voteTo) {
+        VoteTo vote = service.create(voteTo, authUser);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(vote.getId())
@@ -41,7 +40,7 @@ public class UserVoteController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@AuthenticationPrincipal AuthUser authUser,
-                       @Valid @RequestBody VoteRequestTo voteTo) {
+                       @Valid @RequestBody VoteTo voteTo) {
         int userId = authUser.id();
         service.update(voteTo, userId);
     }

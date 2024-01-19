@@ -1,6 +1,7 @@
 package com.github.proyulia.web.user;
 
 import com.github.proyulia.model.User;
+import com.github.proyulia.repository.UserRepository;
 import com.github.proyulia.testdata.UserTestData;
 import com.github.proyulia.to.UserTo;
 import com.github.proyulia.util.JsonUtil;
@@ -13,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import com.github.proyulia.repository.UserRepository;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

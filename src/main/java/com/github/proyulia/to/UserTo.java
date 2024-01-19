@@ -1,12 +1,12 @@
 package com.github.proyulia.to;
 
+import com.github.proyulia.HasIdAndEmail;
 import com.github.proyulia.util.validation.NoHtml;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import com.github.proyulia.HasIdAndEmail;
 
 @Value
 @EqualsAndHashCode(callSuper = true)

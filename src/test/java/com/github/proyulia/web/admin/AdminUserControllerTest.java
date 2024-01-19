@@ -2,10 +2,10 @@ package com.github.proyulia.web.admin;
 
 import com.github.proyulia.model.Role;
 import com.github.proyulia.model.User;
+import com.github.proyulia.repository.UserRepository;
 import com.github.proyulia.testdata.UserTestData;
 import com.github.proyulia.web.AbstractControllerTest;
 import com.github.proyulia.web.UniqueMailValidator;
-import com.github.proyulia.web.admin.AdminUserController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import com.github.proyulia.repository.UserRepository;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;

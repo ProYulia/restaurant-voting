@@ -1,5 +1,7 @@
 package com.github.proyulia.web.admin;
 
+import com.github.proyulia.service.RestaurantService;
+import com.github.proyulia.to.RestaurantTo;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,9 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.github.proyulia.service.RestaurantService;
-import com.github.proyulia.to.RestaurantRequestTo;
-import com.github.proyulia.to.RestaurantResponseTo;
 
 import java.net.URI;
 import java.util.List;
@@ -28,14 +27,14 @@ public class AdminRestaurantController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<RestaurantResponseTo> create(@Valid @RequestBody RestaurantRequestTo restaurant) {
+    public ResponseEntity<RestaurantTo> create(@Valid @RequestBody RestaurantTo restaurant) {
 
-        RestaurantResponseTo created = service.create(restaurant);
+        RestaurantTo created = service.create(restaurant);
         URI uriOfNewResource =
                 ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId())
-                .toUri();
+                        .path(REST_URL + "/{id}")
+                        .buildAndExpand(created.getId())
+                        .toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
@@ -44,26 +43,26 @@ public class AdminRestaurantController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable int id,
-                       @Valid @RequestBody RestaurantRequestTo restaurant) {
+                       @Valid @RequestBody RestaurantTo restaurant) {
 
         service.update(restaurant, id);
     }
 
     @GetMapping(value = "/restaurants-with-menus",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RestaurantResponseTo> getAllWithMenus() {
+    public List<RestaurantTo> getAllWithMenus() {
         return service.getAllWithMenus();
     }
 
     @GetMapping(value = "/restaurants",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RestaurantResponseTo> getAll() {
+    public List<RestaurantTo> getAll() {
         return service.getAll();
     }
 
     @GetMapping(value = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public RestaurantResponseTo get(@PathVariable int id) {
+    public RestaurantTo get(@PathVariable int id) {
         return service.get(id);
     }
 

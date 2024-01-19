@@ -1,5 +1,7 @@
 package com.github.proyulia.web.admin;
 
+import com.github.proyulia.service.MenuService;
+import com.github.proyulia.to.MenuTo;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,9 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.github.proyulia.service.MenuService;
-import com.github.proyulia.to.MenuRequestTo;
-import com.github.proyulia.to.MenuResponseTo;
 
 import java.net.URI;
 import java.util.List;
@@ -27,10 +26,10 @@ public class AdminMenuController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<MenuResponseTo> create(@Valid @RequestBody MenuRequestTo menu,
-                                                 @PathVariable int restaurantId) {
+    public ResponseEntity<MenuTo> create(@Valid @RequestBody MenuTo menuTo,
+                                         @PathVariable int restaurantId) {
 
-        MenuResponseTo created = service.create(menu, restaurantId);
+        MenuTo created = service.create(menuTo, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(restaurantId, created.getId())
@@ -42,18 +41,18 @@ public class AdminMenuController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable int restaurantId,
                        @PathVariable int id,
-                       @Valid @RequestBody MenuRequestTo menuRequestTo) {
+                       @Valid @RequestBody MenuTo menuTo) {
 
-        service.update(menuRequestTo, id, restaurantId);
+        service.update(menuTo, id, restaurantId);
     }
 
     @GetMapping(value = "/menus", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MenuResponseTo> getAll(@PathVariable int restaurantId) {
+    public List<MenuTo> getAll(@PathVariable int restaurantId) {
         return service.getAll(restaurantId);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public MenuResponseTo get(@PathVariable int id, @PathVariable int restaurantId) {
+    public MenuTo get(@PathVariable int id, @PathVariable int restaurantId) {
         return service.get(id, restaurantId);
     }
 

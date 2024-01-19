@@ -1,14 +1,13 @@
 package com.github.proyulia.web;
 
+import com.github.proyulia.HasIdAndEmail;
+import com.github.proyulia.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import com.github.proyulia.HasIdAndEmail;
-import com.github.proyulia.repository.UserRepository;
-import com.github.proyulia.web.AuthUser;
 
 @Component
 @AllArgsConstructor

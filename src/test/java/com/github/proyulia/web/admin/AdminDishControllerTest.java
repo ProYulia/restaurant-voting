@@ -2,7 +2,6 @@ package com.github.proyulia.web.admin;
 
 import com.github.proyulia.model.Dish;
 import com.github.proyulia.repository.DishRepository;
-import com.github.proyulia.testdata.DishTestData;
 import com.github.proyulia.util.JsonUtil;
 import com.github.proyulia.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;

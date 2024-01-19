@@ -1,8 +1,8 @@
 package com.github.proyulia.util.validation;
 
+import com.github.proyulia.HasId;
 import com.github.proyulia.error.IllegalRequestDataException;
 import lombok.experimental.UtilityClass;
-import com.github.proyulia.HasId;
 
 @UtilityClass
 public class ValidationUtil {

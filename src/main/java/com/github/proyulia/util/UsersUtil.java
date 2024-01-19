@@ -2,8 +2,8 @@ package com.github.proyulia.util;
 
 import com.github.proyulia.model.Role;
 import com.github.proyulia.model.User;
-import lombok.experimental.UtilityClass;
 import com.github.proyulia.to.UserTo;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class UsersUtil {

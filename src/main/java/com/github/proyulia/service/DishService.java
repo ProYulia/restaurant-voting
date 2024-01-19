@@ -8,8 +8,7 @@ import com.github.proyulia.model.Dish;
 import com.github.proyulia.model.Menu;
 import com.github.proyulia.repository.DishRepository;
 import com.github.proyulia.repository.MenuRepository;
-import com.github.proyulia.to.DishRequestTo;
-import com.github.proyulia.to.DishResponseTo;
+import com.github.proyulia.to.DishTo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,32 +29,32 @@ public class DishService {
     private final DishMapper mapper;
 
     @Transactional
-    public DishResponseTo create(DishRequestTo dishTo, int menuId, int restaurantId) {
+    public DishTo create(DishTo dishTo, int menuId, int restaurantId) {
         Menu menu = menuRepository.findByIdAndRestaurantId(menuId, restaurantId).
                 orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
-        Dish persisted = dishRepository.save(mapper.requestToDishEntity(dishTo, menu));
-        return mapper.entityToDishResponse(persisted);
+        Dish persisted = dishRepository.save(mapper.toDishEntity(dishTo, menu));
+        return mapper.toDishTo(persisted);
     }
 
     @Transactional
-    public void update(DishRequestTo dishRequestTo, int id, int menuId, int restaurantId) {
+    public void update(DishTo dishTo, int id, int menuId, int restaurantId) {
 
         Dish dish = dishRepository.findByIdAndMenuIdAndMenuRestaurantId(id, menuId, restaurantId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
-        mapper.updateEntity(dish, dishRequestTo);
+        mapper.updateEntity(dish, dishTo);
         dishRepository.save(dish);
     }
 
-    public List<DishResponseTo> getAll(int menuId, int restaurantId) {
+    public List<DishTo> getAll(int menuId, int restaurantId) {
         return dishRepository.findAllByMenuIdAndMenuRestaurantId(menuId, restaurantId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title))
                 .stream()
-                .map(mapper::entityToDishResponse)
+                .map(mapper::toDishTo)
                 .collect(Collectors.toList());
     }
 
-    public DishResponseTo get(int id, int menuId, int restaurantId) {
-        return mapper.entityToDishResponse(dishRepository.findByIdAndMenuIdAndMenuRestaurantId(id, menuId, restaurantId)
+    public DishTo get(int id, int menuId, int restaurantId) {
+        return mapper.toDishTo(dishRepository.findByIdAndMenuIdAndMenuRestaurantId(id, menuId, restaurantId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title)));
     }
 

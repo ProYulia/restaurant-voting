@@ -7,8 +7,7 @@ import com.github.proyulia.model.Restaurant;
 import com.github.proyulia.model.Vote;
 import com.github.proyulia.repository.RestaurantRepository;
 import com.github.proyulia.repository.VoteRepository;
-import com.github.proyulia.to.VoteRequestTo;
-import com.github.proyulia.to.VoteResponseTo;
+import com.github.proyulia.to.VoteTo;
 import com.github.proyulia.web.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,7 +36,7 @@ public class VoteService {
 
     @Cacheable
     @Transactional
-    public VoteResponseTo create(VoteRequestTo voteTo, AuthUser authUser) {
+    public VoteTo create(VoteTo voteTo, AuthUser authUser) {
         int restaurantId = voteTo.getRestaurantId();
         LocalDate currentDate = LocalDate.now();
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
@@ -52,7 +51,7 @@ public class VoteService {
     }
 
     @CacheEvict(value = "votes", key = "#userId")
-    public void update(VoteRequestTo voteTo, int userId) {
+    public void update(VoteTo voteTo, int userId) {
         checkDeadline(LocalTime.now());
         int restaurantId = voteTo.getRestaurantId();
         Restaurant restaurant = restaurantRepository.findById(restaurantId)

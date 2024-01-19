@@ -9,8 +9,7 @@ import com.github.proyulia.model.Restaurant;
 import com.github.proyulia.repository.DishRepository;
 import com.github.proyulia.repository.RestaurantRepository;
 import com.github.proyulia.repository.VoteRepository;
-import com.github.proyulia.to.RestaurantRequestTo;
-import com.github.proyulia.to.RestaurantResponseTo;
+import com.github.proyulia.to.RestaurantTo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -38,47 +37,45 @@ public class RestaurantService {
 
     @CacheEvict(value = "restaurants")
     @Transactional
-    public RestaurantResponseTo create(RestaurantRequestTo restaurantTo) {
-        Restaurant persisted = repository.save(mapper.requestToRestaurantEntity(restaurantTo));
-        return mapper.entityToRestaurantResponseTo(persisted, 0, null);
+    public RestaurantTo create(RestaurantTo restaurantTo) {
+        Restaurant persisted = repository.save(mapper.toRestaurantEntity(restaurantTo));
+        return mapper.toRestaurantTo(persisted, null);
     }
 
     @Cacheable
-    public List<RestaurantResponseTo> getAllByDate(LocalDate date) {
-        Map<Integer, Integer> votes = voteRepository.getTotal();
+    public List<RestaurantTo> getAllByDate(LocalDate date) {
         Map<Integer, List<Dish>> dishes = dishRepository.getRestaurantDishes();
         return repository.findAllFilteredByDate(date).stream()
-                .map(r -> mapper.entityToRestaurantResponseTo(r, votes.getOrDefault(r.getId(), 0), dishes.getOrDefault(r.getId(), null)))
+                .map(r -> mapper.toRestaurantTo(r, dishes.getOrDefault(r.getId(), null)))
                 .collect(Collectors.toList());
     }
 
     @CacheEvict(value = "restaurants", key = "#id")
     @Transactional
-    public void update(RestaurantRequestTo restaurantTo, int id) {
+    public void update(RestaurantTo restaurantTo, int id) {
         Restaurant restaurant = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
         mapper.updateEntity(restaurant, restaurantTo);
         repository.save(restaurant);
     }
 
-    public List<RestaurantResponseTo> getAllWithMenus() {
-        Map<Integer, Integer> votes = voteRepository.getTotal();
+    public List<RestaurantTo> getAllWithMenus() {
         Map<Integer, List<Dish>> dishes = dishRepository.getRestaurantDishes();
         return repository.findAll().stream()
-                .map(r -> mapper.entityToRestaurantResponseTo(r, votes.getOrDefault(r.getId(), 0), dishes.getOrDefault(r.getId(), null)))
+                .map(r -> mapper.toRestaurantTo(r, dishes.getOrDefault(r.getId(), null)))
                 .collect(Collectors.toList());
     }
 
-    public List<RestaurantResponseTo> getAll() {
+    public List<RestaurantTo> getAll() {
         return repository.findAll().stream()
-                .map(r -> mapper.entityToRestaurantResponseTo(r, null, null))
+                .map(r -> mapper.toRestaurantTo(r, null))
                 .collect(Collectors.toList());
     }
 
-    public RestaurantResponseTo get(int id) {
+    public RestaurantTo get(int id) {
         Restaurant restaurant = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
-        return mapper.entityToRestaurantResponseTo(restaurant, null, null);
+        return mapper.toRestaurantTo(restaurant, null);
     }
 
     @CacheEvict(value = "restaurants", key = "#id")

@@ -1,11 +1,11 @@
 package com.github.proyulia.web;
 
 import com.github.proyulia.model.User;
+import com.github.proyulia.repository.UserRepository;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import com.github.proyulia.repository.UserRepository;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
