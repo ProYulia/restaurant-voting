@@ -2,7 +2,6 @@ package com.github.proyulia.web.admin;
 
 import com.github.proyulia.model.Restaurant;
 import com.github.proyulia.repository.RestaurantRepository;
-import com.github.proyulia.testdata.RestaurantTestData;
 import com.github.proyulia.util.JsonUtil;
 import com.github.proyulia.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
@@ -53,7 +52,8 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newRestaurant.setId(newId);
         RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
-        RESTAURANT_MATCHER.assertMatch(repository.getExisted(newId), newRestaurant);
+        RESTAURANT_MATCHER.assertMatch(repository.getExisted(newId),
+                newRestaurant);
     }
 
     @Test
@@ -71,12 +71,14 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         Restaurant updated = getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL + "/{id}", RestaurantTestData.RESTAURANT1_ID).contentType(MediaType.APPLICATION_JSON)
+        perform(MockMvcRequestBuilders.put(REST_URL + "/{id}",
+                        RESTAURANT1_ID).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        RESTAURANT_MATCHER.assertMatch(repository.getExisted(RestaurantTestData.RESTAURANT1_ID), RestaurantTestData.getUpdated());
+        RESTAURANT_MATCHER.assertMatch(repository.getExisted(RESTAURANT1_ID),
+                getUpdated());
     }
 
     @Test
@@ -85,6 +87,7 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + "/restaurants"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_MATCHER.contentJson(restaurant3, restaurant1, restaurant2));
+                .andExpect(RESTAURANT_MATCHER.contentJson(restaurant3,
+                        restaurant1, restaurant2));
     }
 }

@@ -78,7 +78,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
 
         Dish created = DISH_MATCHER.readFromJson(action);
         int newId = created.id();
-        Dish expected = DishTestData.getNew();
+        Dish expected = getNew();
         expected.setId(newId);
         DISH_MATCHER.assertMatch(created, expected);
         DISH_MATCHER.assertMatch(repository.getExisted(newId), expected);
@@ -93,7 +93,7 @@ public class AdminDishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        DISH_MATCHER.assertMatch(repository.getExisted(DISH_ID), DishTestData.getUpdated());
+        DISH_MATCHER.assertMatch(repository.getExisted(DISH_ID), getUpdated());
     }
 
     @Test

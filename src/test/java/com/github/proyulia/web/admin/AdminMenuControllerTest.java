@@ -2,7 +2,6 @@ package com.github.proyulia.web.admin;
 
 import com.github.proyulia.model.Menu;
 import com.github.proyulia.repository.MenuRepository;
-import com.github.proyulia.testdata.MenuTestData;
 import com.github.proyulia.util.JsonUtil;
 import com.github.proyulia.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
@@ -67,7 +66,8 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
         Menu newMenu = getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT2_ID)
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL,
+                        RESTAURANT2_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newMenu)))
                 .andDo(print())
@@ -85,12 +85,13 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         Menu updated = getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL + "/{id}", RESTAURANT_ID, MenuTestData.MENU1_ID).contentType(MediaType.APPLICATION_JSON)
+        perform(MockMvcRequestBuilders.put(REST_URL + "/{id}", RESTAURANT_ID,
+                        MENU1_ID).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        MENU_MATCHER.assertMatch(repository.getExisted(MenuTestData.MENU1_ID), MenuTestData.getUpdated());
+        MENU_MATCHER.assertMatch(repository.getExisted(MENU1_ID), getUpdated());
     }
 
     @Test
