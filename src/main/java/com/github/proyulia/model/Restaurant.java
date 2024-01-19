@@ -9,7 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "restaurants_unique_name_idx")})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name =
+        "restaurants_unique_name_idx")})
 @Getter
 @Setter
 @NoArgsConstructor

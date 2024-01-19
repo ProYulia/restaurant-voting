@@ -1,11 +1,12 @@
 package com.github.proyulia.testdata;
 
-import com.github.proyulia.model.Restaurant;
+import com.github.proyulia.to.RestaurantTo;
 import com.github.proyulia.web.MatcherFactory;
 
 public class RestaurantTestData {
-    public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER =
-            MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class, "menus");
+    public static final MatcherFactory.Matcher<RestaurantTo> RESTAURANT_MATCHER =
+            MatcherFactory.usingIgnoringFieldsComparator(RestaurantTo.class,
+                    "menus");
 
     public static final int RESTAURANT1_ID = 1;
 
@@ -13,17 +14,20 @@ public class RestaurantTestData {
 
     public static final int RESTAURANT3_ID = 3;
 
-    public static final Restaurant restaurant1 = new Restaurant(RESTAURANT1_ID, "Pizzeria");
+    public static final RestaurantTo restaurant1 =
+            new RestaurantTo(RESTAURANT1_ID, "Pizzeria");
 
-    public static final Restaurant restaurant2 = new Restaurant(RESTAURANT2_ID, "Sushi");
+    public static final RestaurantTo restaurant2 =
+            new RestaurantTo(RESTAURANT2_ID, "Sushi");
 
-    public static final Restaurant restaurant3 = new Restaurant(RESTAURANT3_ID, "Chinese");
+    public static final RestaurantTo restaurant3 =
+            new RestaurantTo(RESTAURANT3_ID, "Chinese");
 
-    public static Restaurant getNew() {
-        return new Restaurant(null, "New");
+    public static RestaurantTo getNew() {
+        return new RestaurantTo(null, "New");
     }
 
-    public static Restaurant getUpdated() {
-        return new Restaurant(RESTAURANT1_ID, "Updated_name");
+    public static RestaurantTo getUpdated() {
+        return new RestaurantTo(RESTAURANT1_ID, "Updated_name");
     }
 }

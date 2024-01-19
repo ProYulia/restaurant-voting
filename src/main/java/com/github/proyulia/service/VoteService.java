@@ -43,7 +43,8 @@ public class VoteService {
                 .orElseThrow(() -> new IllegalRequestDataException(ErrorType.BAD_REQUEST.title));
 
         Vote vote = new Vote(currentDate, authUser.getUser(), restaurant);
-        if (voteRepository.findByUserIdAndDate(authUser.getUser().id(), currentDate).isEmpty()) {
+        if (voteRepository.findByUserIdAndDate(authUser.getUser().id(),
+                currentDate).isEmpty()) {
             return mapper.entityToVoteResponseTo(voteRepository.save(vote));
         } else {
             throw new IllegalRequestDataException("Vote already exists");
@@ -57,7 +58,8 @@ public class VoteService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new IllegalRequestDataException(ErrorType.BAD_REQUEST.title));
         Vote vote = voteRepository.findByUserIdAndDate(userId, LocalDate.now())
-                .orElseThrow(() -> new IllegalRequestDataException("You should vote first"));
+                .orElseThrow(() -> new IllegalRequestDataException("You " +
+                        "should vote first"));
         vote.setRestaurant(restaurant);
         voteRepository.save(vote);
     }
@@ -65,6 +67,7 @@ public class VoteService {
 
     private void checkDeadline(LocalTime currentTime) {
         if (currentTime.isAfter(deadline))
-            throw new IllegalRequestDataException("Impossible to change vote after " + deadline);
+            throw new IllegalRequestDataException("Impossible to change vote " +
+                    "after " + deadline);
     }
 }

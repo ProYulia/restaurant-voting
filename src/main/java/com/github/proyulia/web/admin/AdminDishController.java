@@ -19,7 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "admin-dish-controller")
 public class AdminDishController {
-    static final String REST_URL = "/api/admin/restaurant/{restaurantId}/menu/{menuId}/dish";
+    static final String REST_URL = "/api/admin/restaurant/{restaurantId}/menu" +
+            "/{menuId}/dish";
 
     private final DishService service;
 
@@ -31,7 +32,8 @@ public class AdminDishController {
                                          @PathVariable int restaurantId) {
 
         DishTo created = service.create(dishTo, menuId, restaurantId);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+        URI uriOfNewResource =
+                ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(restaurantId, menuId, created.getId())
                 .toUri();

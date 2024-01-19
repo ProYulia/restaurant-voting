@@ -24,7 +24,8 @@ public class AuthUser extends org.springframework.security.core.userdetails.User
     }
 
     public static AuthUser safeGet() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth =
+                SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             return null;
         }

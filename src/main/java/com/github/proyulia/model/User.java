@@ -37,11 +37,13 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @ToString.Exclude
     private String password;
 
-    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool " +
+            "default true")
     @ToString.Exclude
     private boolean enabled = true;
 
-    @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    @Column(name = "registered", nullable = false, columnDefinition =
+            "timestamp default now()", updatable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @ToString.Exclude
@@ -50,7 +52,8 @@ public class User extends NamedEntity implements HasIdAndEmail {
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role"}, name = "uk_user_role"))
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id",
+                    "role"}, name = "uk_user_role"))
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinColumn
@@ -59,14 +62,17 @@ public class User extends NamedEntity implements HasIdAndEmail {
     private Set<Role> roles;
 
     public User(User u) {
-        this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
+        this(u.id, u.name, u.email, u.password, u.enabled, u.registered,
+                u.roles);
     }
 
-    public User(Integer id, String name, String email, String password, Role... roles) {
+    public User(Integer id, String name, String email, String password,
+                Role... roles) {
         this(id, name, email, password, true, new Date(), Arrays.asList(roles));
     }
 
-    public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {
+    public User(Integer id, String name, String email, String password,
+                boolean enabled, Date registered, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
@@ -76,7 +82,8 @@ public class User extends NamedEntity implements HasIdAndEmail {
     }
 
     public void setRoles(Collection<Role> roles) {
-        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+        this.roles = CollectionUtils.isEmpty(roles) ?
+                EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
     public boolean hasRole(Role role) {

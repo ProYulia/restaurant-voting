@@ -29,7 +29,8 @@ public class UserVoteController {
     public ResponseEntity<VoteTo> create(@AuthenticationPrincipal AuthUser authUser,
                                          @Valid @RequestBody VoteTo voteTo) {
         VoteTo vote = service.create(voteTo, authUser);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+        URI uriOfNewResource =
+                ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(vote.getId())
                 .toUri();

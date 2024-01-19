@@ -1,7 +1,9 @@
 package com.github.proyulia.web.admin;
 
-import com.github.proyulia.model.Menu;
+import com.github.proyulia.mapper.MenuMapper;
+import com.github.proyulia.mapper.MenuMapperImpl;
 import com.github.proyulia.repository.MenuRepository;
+import com.github.proyulia.to.MenuTo;
 import com.github.proyulia.util.JsonUtil;
 import com.github.proyulia.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
@@ -26,12 +28,14 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
 
     private static final int RESTAURANT2_ID = 3;
 
+    private final MenuMapper mapper = new MenuMapperImpl();
+
     @Autowired
     private MenuRepository repository;
 
     @Test
     void createUnAuth() throws Exception {
-        Menu newMenu = getNew();
+        MenuTo newMenu = getNew();
         perform(MockMvcRequestBuilders
                 .post(REST_URL, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -43,7 +47,7 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void createForbidden() throws Exception {
-        Menu newMenu = getNew();
+        MenuTo newMenu = getNew();
         perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newMenu)))
@@ -54,7 +58,7 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        Menu invalid = new Menu(null);
+        MenuTo invalid = new MenuTo(null);
         perform(MockMvcRequestBuilders.post(REST_URL, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
@@ -65,7 +69,7 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        Menu newMenu = getNew();
+        MenuTo newMenu = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL,
                         RESTAURANT2_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -73,25 +77,25 @@ public class AdminMenuControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        Menu created = MENU_MATCHER.readFromJson(action);
-        int newId = created.id();
-        Menu expected = getNew();
+        MenuTo created = MENU_MATCHER.readFromJson(action);
+        int newId = created.getId();
+        MenuTo expected = getNew();
         expected.setId(newId);
         MENU_MATCHER.assertMatch(created, expected);
-        MENU_MATCHER.assertMatch(repository.getExisted(newId), expected);
+        MENU_MATCHER.assertMatch(mapper.toMenuTo(repository.getExisted(newId)), expected);
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        Menu updated = getUpdated();
+        MenuTo updated = getUpdated();
         perform(MockMvcRequestBuilders.put(REST_URL + "/{id}", RESTAURANT_ID,
                         MENU1_ID).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        MENU_MATCHER.assertMatch(repository.getExisted(MENU1_ID), getUpdated());
+        MENU_MATCHER.assertMatch(mapper.toMenuTo(repository.getExisted(MENU1_ID)), getUpdated());
     }
 
     @Test

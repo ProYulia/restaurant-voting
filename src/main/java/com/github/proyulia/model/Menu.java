@@ -13,7 +13,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"date_effective", "restaurant_id"}, name = "menus_unique_date_effective_restaurant_id_idx")})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"date_effective"
+        , "restaurant_id"}, name =
+        "menus_unique_date_effective_restaurant_id_idx")})
 @Getter
 @Setter
 @NoArgsConstructor

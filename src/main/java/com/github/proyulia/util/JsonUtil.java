@@ -23,7 +23,8 @@ public class JsonUtil {
         try {
             return reader.<T>readValues(json).readAll();
         } catch (IOException e) {
-            throw new IllegalArgumentException("Invalid read array from JSON:\n'" + json + "'", e);
+            throw new IllegalArgumentException("Invalid read array from " +
+                    "JSON:\n'" + json + "'", e);
         }
     }
 
@@ -43,12 +44,15 @@ public class JsonUtil {
         }
     }
 
-    public static <T> String writeAdditionProps(T obj, String addName, Object addValue) {
+    public static <T> String writeAdditionProps(T obj, String addName,
+                                                Object addValue) {
         return writeAdditionProps(obj, Map.of(addName, addValue));
     }
 
-    public static <T> String writeAdditionProps(T obj, Map<String, Object> addProps) {
-        Map<String, Object> map = mapper.convertValue(obj, new TypeReference<>() {
+    public static <T> String writeAdditionProps(T obj,
+                                                Map<String, Object> addProps) {
+        Map<String, Object> map = mapper.convertValue(obj,
+                new TypeReference<>() {
         });
         map.putAll(addProps);
         return writeValue(map);

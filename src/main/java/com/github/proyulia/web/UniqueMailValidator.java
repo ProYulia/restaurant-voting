@@ -12,7 +12,8 @@ import org.springframework.validation.Errors;
 @Component
 @AllArgsConstructor
 public class UniqueMailValidator implements org.springframework.validation.Validator {
-    public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists";
+    public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this " +
+            "email already exists";
 
     private final UserRepository repository;
 
@@ -32,14 +33,16 @@ public class UniqueMailValidator implements org.springframework.validation.Valid
                         if (request.getMethod().equals("PUT")) {  // UPDATE
                             int dbId = dbUser.id();
 
-                            if (user.getId() != null && dbId == user.id()) return;
+                            if (user.getId() != null && dbId == user.id())
+                                return;
 
                             String requestURI = request.getRequestURI();
                             if (requestURI.endsWith("/" + dbId) ||
                                     (dbId == AuthUser.authId() && requestURI.contains("/profile")))
                                 return;
                         }
-                        errors.rejectValue("email", "", EXCEPTION_DUPLICATE_EMAIL);
+                        errors.rejectValue("email", "",
+                                EXCEPTION_DUPLICATE_EMAIL);
                     });
         }
     }

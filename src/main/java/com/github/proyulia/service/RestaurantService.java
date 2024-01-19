@@ -38,7 +38,8 @@ public class RestaurantService {
     @CacheEvict(value = "restaurants")
     @Transactional
     public RestaurantTo create(RestaurantTo restaurantTo) {
-        Restaurant persisted = repository.save(mapper.toRestaurantEntity(restaurantTo));
+        Restaurant persisted =
+                repository.save(mapper.toRestaurantEntity(restaurantTo));
         return mapper.toRestaurantTo(persisted, null);
     }
 
@@ -46,7 +47,8 @@ public class RestaurantService {
     public List<RestaurantTo> getAllByDate(LocalDate date) {
         Map<Integer, List<Dish>> dishes = dishRepository.getRestaurantDishes();
         return repository.findAllFilteredByDate(date).stream()
-                .map(r -> mapper.toRestaurantTo(r, dishes.getOrDefault(r.getId(), null)))
+                .map(r -> mapper.toRestaurantTo(r,
+                        dishes.getOrDefault(r.getId(), null)))
                 .collect(Collectors.toList());
     }
 
@@ -62,7 +64,8 @@ public class RestaurantService {
     public List<RestaurantTo> getAllWithMenus() {
         Map<Integer, List<Dish>> dishes = dishRepository.getRestaurantDishes();
         return repository.findAll().stream()
-                .map(r -> mapper.toRestaurantTo(r, dishes.getOrDefault(r.getId(), null)))
+                .map(r -> mapper.toRestaurantTo(r,
+                        dishes.getOrDefault(r.getId(), null)))
                 .collect(Collectors.toList());
     }
 

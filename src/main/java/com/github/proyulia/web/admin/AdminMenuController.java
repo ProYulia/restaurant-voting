@@ -30,7 +30,8 @@ public class AdminMenuController {
                                          @PathVariable int restaurantId) {
 
         MenuTo created = service.create(menuTo, restaurantId);
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+        URI uriOfNewResource =
+                ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(restaurantId, created.getId())
                 .toUri();

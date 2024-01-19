@@ -23,7 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class AdminUserControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL_SLASH = AdminUserController.REST_URL + '/';
+    private static final String REST_URL_SLASH =
+            AdminUserController.REST_URL + '/';
 
     @Autowired
     private UserRepository repository;
@@ -70,7 +71,8 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void createWithLocation() throws Exception {
         User newUser = UserTestData.getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(AdminUserController.REST_URL)
+        ResultActions action =
+                perform(MockMvcRequestBuilders.post(AdminUserController.REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(UserTestData.jsonWithPassword(newUser, "newPass")))
                 .andExpect(status().isCreated());
@@ -79,7 +81,8 @@ class AdminUserControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newUser.setId(newId);
         UserTestData.USER_MATCHER.assertMatch(created, newUser);
-        UserTestData.USER_MATCHER.assertMatch(repository.getExisted(newId), newUser);
+        UserTestData.USER_MATCHER.assertMatch(repository.getExisted(newId),
+                newUser);
     }
 
     @Test
@@ -106,7 +109,8 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void createInvalid() throws Exception {
-        User invalid = new User(null, null, "", "newPass", Role.USER, Role.ADMIN);
+        User invalid = new User(null, null, "", "newPass", Role.USER,
+                Role.ADMIN);
         perform(MockMvcRequestBuilders.post(AdminUserController.REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(UserTestData.jsonWithPassword(invalid, "newPass")))
@@ -156,7 +160,8 @@ class AdminUserControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     @WithUserDetails(value = UserTestData.ADMIN_MAIL)
     void createDuplicate() throws Exception {
-        User expected = new User(null, "New", UserTestData.USER_MAIL, "newPass", Role.USER, Role.ADMIN);
+        User expected = new User(null, "New", UserTestData.USER_MAIL,
+                "newPass", Role.USER, Role.ADMIN);
         perform(MockMvcRequestBuilders.post(AdminUserController.REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(UserTestData.jsonWithPassword(expected, "newPass")))

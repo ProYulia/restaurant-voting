@@ -45,14 +45,17 @@ class ProfileControllerTest extends AbstractControllerTest {
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(ProfileController.REST_URL))
                 .andExpect(status().isNoContent());
-        UserTestData.USER_MATCHER.assertMatch(repository.findAll(), UserTestData.admin, UserTestData.guest);
+        UserTestData.USER_MATCHER.assertMatch(repository.findAll(),
+                UserTestData.admin, UserTestData.guest);
     }
 
     @Test
     void register() throws Exception {
-        UserTo newTo = new UserTo(null, "newName", "newemail@ya.ru", "newPassword");
+        UserTo newTo = new UserTo(null, "newName", "newemail@ya.ru",
+                "newPassword");
         User newUser = UsersUtil.createNewFromTo(newTo);
-        ResultActions action = perform(MockMvcRequestBuilders.post(ProfileController.REST_URL)
+        ResultActions action =
+                perform(MockMvcRequestBuilders.post(ProfileController.REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newTo)))
                 .andDo(print())
@@ -62,13 +65,15 @@ class ProfileControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newUser.setId(newId);
         UserTestData.USER_MATCHER.assertMatch(created, newUser);
-        UserTestData.USER_MATCHER.assertMatch(repository.getExisted(newId), newUser);
+        UserTestData.USER_MATCHER.assertMatch(repository.getExisted(newId),
+                newUser);
     }
 
     @Test
     @WithUserDetails(value = UserTestData.USER_MAIL)
     void update() throws Exception {
-        UserTo updatedTo = new UserTo(null, "newName", UserTestData.USER_MAIL, "newPassword");
+        UserTo updatedTo = new UserTo(null, "newName", UserTestData.USER_MAIL
+                , "newPassword");
         perform(MockMvcRequestBuilders.put(ProfileController.REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())
@@ -101,7 +106,8 @@ class ProfileControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = UserTestData.USER_MAIL)
     void updateDuplicate() throws Exception {
-        UserTo updatedTo = new UserTo(null, "newName", UserTestData.ADMIN_MAIL, "newPassword");
+        UserTo updatedTo = new UserTo(null, "newName",
+                UserTestData.ADMIN_MAIL, "newPassword");
         perform(MockMvcRequestBuilders.put(ProfileController.REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updatedTo)))
                 .andDo(print())

@@ -20,9 +20,9 @@ VALUES ('2023-12-23', 1),
        (CURRENT_DATE, 2);
 
 INSERT INTO DISH (name, price, menu_id)
-VALUES ('Cheeze pizza', 299, 1),
+VALUES ('Cheese pizza', 299, 1),
        ('Pepperoni', 349, 2),
        ('Sushi set', 400, 4),
        ('Soup', 250, 3),
-       ('4 Cheeze', 299, 3),
+       ('4 Cheese', 299, 3),
        ('Pepperoni', 349, 4);

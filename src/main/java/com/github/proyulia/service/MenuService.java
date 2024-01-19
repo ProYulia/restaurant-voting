@@ -31,7 +31,8 @@ public class MenuService {
     public MenuTo create(MenuTo menuTo, int restaurantId) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND.title));
-        Menu persisted = menuRepository.save(mapper.toMenuEntity(menuTo, restaurant));
+        Menu persisted = menuRepository.save(mapper.toMenuEntity(menuTo,
+                restaurant));
         return mapper.toMenuTo(persisted);
     }
 

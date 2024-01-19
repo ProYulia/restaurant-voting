@@ -1,7 +1,10 @@
 package com.github.proyulia.web.admin;
 
+import com.github.proyulia.mapper.RestaurantMapper;
+import com.github.proyulia.mapper.RestaurantMapperImpl;
 import com.github.proyulia.model.Restaurant;
 import com.github.proyulia.repository.RestaurantRepository;
+import com.github.proyulia.to.RestaurantTo;
 import com.github.proyulia.util.JsonUtil;
 import com.github.proyulia.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
@@ -22,6 +25,8 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = AdminRestaurantController.REST_URL;
 
+    private final RestaurantMapper mapper = new RestaurantMapperImpl();
+
     @Autowired
     private RestaurantRepository repository;
 
@@ -41,18 +46,18 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        Restaurant newRestaurant = getNew();
+        RestaurantTo newRestaurant = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newRestaurant)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        Restaurant created = RESTAURANT_MATCHER.readFromJson(action);
-        int newId = created.id();
+        RestaurantTo created = RESTAURANT_MATCHER.readFromJson(action);
+        int newId = created.getId();
         newRestaurant.setId(newId);
         RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
-        RESTAURANT_MATCHER.assertMatch(repository.getExisted(newId),
+        RESTAURANT_MATCHER.assertMatch(mapper.toRestaurantTo(repository.getExisted(newId), null),
                 newRestaurant);
     }
 
@@ -70,14 +75,14 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        Restaurant updated = getUpdated();
+        RestaurantTo updated = getUpdated();
         perform(MockMvcRequestBuilders.put(REST_URL + "/{id}",
                         RESTAURANT1_ID).contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        RESTAURANT_MATCHER.assertMatch(repository.getExisted(RESTAURANT1_ID),
+        RESTAURANT_MATCHER.assertMatch(mapper.toRestaurantTo(repository.getExisted(RESTAURANT1_ID), null),
                 getUpdated());
     }
 
