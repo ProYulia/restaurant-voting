@@ -5,7 +5,7 @@
 
 ### Description
 
-Design and implement a REST API using Hibernate/Spring/SpringMVC (Spring-Boot preferred!) **without frontend**.
+REST API using Hibernate/Spring/SpringMVC **without frontend**.
 
 * 2 types of users: admin and regular users
 * Admin can input a restaurant, and it's lunch menu of the day (2-5 items usually, just a dish name and price)
