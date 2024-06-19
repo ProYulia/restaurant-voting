@@ -1,6 +1,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e9747374d2904318b623f49b3d72cb23)](https://app.codacy.com/gh/ProYulia/restaurant-voting/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-## Сервис голосования за рестораны
+## Restaurant voting service
 ===============================
 
 ### Description
